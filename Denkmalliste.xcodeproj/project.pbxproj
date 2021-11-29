@@ -14,6 +14,7 @@
 		C6F97E19275536880032C678 /* DenkmallisteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F97E18275536880032C678 /* DenkmallisteTests.swift */; };
 		C6F97E23275536880032C678 /* DenkmallisteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F97E22275536880032C678 /* DenkmallisteUITests.swift */; };
 		C6F97E25275536880032C678 /* DenkmallisteUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F97E24275536880032C678 /* DenkmallisteUITestsLaunchTests.swift */; };
+		C6F97E34275538D00032C678 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F97E33275538D00032C678 /* MapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		C6F97E1E275536880032C678 /* DenkmallisteUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DenkmallisteUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6F97E22275536880032C678 /* DenkmallisteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenkmallisteUITests.swift; sourceTree = "<group>"; };
 		C6F97E24275536880032C678 /* DenkmallisteUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenkmallisteUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		C6F97E33275538D00032C678 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 			children = (
 				C6F97E07275536860032C678 /* DenkmallisteApp.swift */,
 				C6F97E09275536860032C678 /* ContentView.swift */,
+				C6F97E33275538D00032C678 /* MapView.swift */,
 				C6F97E0B275536870032C678 /* Assets.xcassets */,
 				C6F97E0D275536870032C678 /* Preview Content */,
 			);
@@ -258,6 +261,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6F97E0A275536860032C678 /* ContentView.swift in Sources */,
+				C6F97E34275538D00032C678 /* MapView.swift in Sources */,
 				C6F97E08275536860032C678 /* DenkmallisteApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

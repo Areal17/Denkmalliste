@@ -15,6 +15,7 @@
 		C6F97E23275536880032C678 /* DenkmallisteUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F97E22275536880032C678 /* DenkmallisteUITests.swift */; };
 		C6F97E25275536880032C678 /* DenkmallisteUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F97E24275536880032C678 /* DenkmallisteUITestsLaunchTests.swift */; };
 		C6F97E34275538D00032C678 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F97E33275538D00032C678 /* MapView.swift */; };
+		C6F97E3827553C9C0032C678 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6F97E3727553C9C0032C678 /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,8 @@
 		C6F97E22275536880032C678 /* DenkmallisteUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenkmallisteUITests.swift; sourceTree = "<group>"; };
 		C6F97E24275536880032C678 /* DenkmallisteUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenkmallisteUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		C6F97E33275538D00032C678 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		C6F97E3527553C9B0032C678 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C6F97E3727553C9C0032C678 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6F97E3827553C9C0032C678 /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -80,6 +84,7 @@
 				C6F97E17275536880032C678 /* DenkmallisteTests */,
 				C6F97E21275536880032C678 /* DenkmallisteUITests */,
 				C6F97E05275536860032C678 /* Products */,
+				C6F97E3627553C9C0032C678 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -96,6 +101,7 @@
 		C6F97E06275536860032C678 /* Denkmalliste */ = {
 			isa = PBXGroup;
 			children = (
+				C6F97E3527553C9B0032C678 /* Info.plist */,
 				C6F97E07275536860032C678 /* DenkmallisteApp.swift */,
 				C6F97E09275536860032C678 /* ContentView.swift */,
 				C6F97E33275538D00032C678 /* MapView.swift */,
@@ -128,6 +134,14 @@
 				C6F97E24275536880032C678 /* DenkmallisteUITestsLaunchTests.swift */,
 			);
 			path = DenkmallisteUITests;
+			sourceTree = "<group>";
+		};
+		C6F97E3627553C9C0032C678 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C6F97E3727553C9C0032C678 /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -426,6 +440,7 @@
 				DEVELOPMENT_TEAM = B72K857U7Z;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Denkmalliste/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -455,6 +470,7 @@
 				DEVELOPMENT_TEAM = B72K857U7Z;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Denkmalliste/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

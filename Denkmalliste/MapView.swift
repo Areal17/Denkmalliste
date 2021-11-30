@@ -11,7 +11,7 @@ import MapKit
 import CoreLocation
 
 struct MapView: View {
-    
+    //@Binding var userCoord: CLLocationCoordinate2D
     @State private var userRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(), latitudinalMeters: 750, longitudinalMeters: 750)
     @State private var userTrackingMode = MKUserTrackingMode.follow
     @State private var allInteractionMode = MapInteractionModes.all

@@ -14,6 +14,5 @@ struct RoundedRectView: ViewModifier {
         content
             .clipShape(RoundedRectangle(cornerRadius: radius))
             .shadow(color: Color.gray, radius: radius, x: 2.3, y: 2.3)
-            .padding(.horizontal, 4.0)
     }
 }

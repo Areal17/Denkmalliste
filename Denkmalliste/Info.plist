@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Damit Dankmäler in ihrer Nähe gefunden werden, braucht die Denkmallisten-App ihren Standort.</string>
+	<string>Damit Dankmale in ihrer Nähe gefunden werden, braucht die Denkmallisten-App ihren Standort.</string>
 	<key>NSLocationUsageDescription</key>
-	<string>Die Denkmallisten-App verwendet ihren Standort, damit Denkmäler in ihrer Nähe gefunden werden können.</string>
+	<string>Die Denkmallisten-App verwendet ihren Standort, damit Denkmale in ihrer Nähe gefunden werden können.</string>
 	<key>MKDirectionsApplicationSupportedModes</key>
 	<array/>
 </dict>

@@ -17,7 +17,7 @@ struct MapView: View {
     @State private var allInteractionMode = MapInteractionModes.all
     
     var body: some View {
-        Map(coordinateRegion: $userRegion)
+        Map(coordinateRegion: $userRegion, showsUserLocation: true)
     }
 }
 

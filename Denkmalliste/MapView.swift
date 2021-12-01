@@ -19,6 +19,8 @@ struct MapView: UIViewRepresentable {
     func makeUIView(context: Context) -> MKMapView {
         let mapView = MKMapView()
         mapView.delegate = context.coordinator
+        mapView.isZoomEnabled = true
+        mapView.showsUserLocation = true
         return mapView
     }
     
@@ -42,7 +44,13 @@ class Coordinator: NSObject, MKMapViewDelegate{
     }
     
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
-        print("MapView is loaded")
+        parent.centerCoordinates = mapView.userLocation.coordinate
+        parent.currentLocation = mapView.userLocation.coordinate
+    }
+    
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        parent.currentLocation = userLocation.coordinate
+        parent.centerCoordinates = userLocation.coordinate
     }
 }
 

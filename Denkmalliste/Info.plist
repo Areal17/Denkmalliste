@@ -2,11 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Damit Dankmale in ihrer Nähe gefunden werden, braucht die Denkmallisten-App ihren Standort.</string>
-	<key>NSLocationUsageDescription</key>
-	<string>Die Denkmallisten-App verwendet ihren Standort, damit Denkmale in ihrer Nähe gefunden werden können.</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>MKDirectionsRequest</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>com.apple.maps.directionsrequest</string>
+			</array>
+		</dict>
+	</array>
 	<key>MKDirectionsApplicationSupportedModes</key>
-	<array/>
+	<array>
+		<string>MKDirectionsModeBus</string>
+		<string>MKDirectionsModeCar</string>
+		<string>MKDirectionsModePedestrian</string>
+		<string>MKDirectionsModeStreetCar</string>
+		<string>MKDirectionsModeSubway</string>
+		<string>MKDirectionsModeTaxi</string>
+	</array>
 </dict>
 </plist>

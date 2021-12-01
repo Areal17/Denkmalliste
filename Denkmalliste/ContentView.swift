@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import CoreLocation
+import MapKit
 
 
 
 struct ContentView: View {
+    @State private var locations = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     var body: some View {
-        
         VStack {
             Text("Denkmale in Berlin").font(.title).background(
                 RoundedRectangle(cornerRadius: 6.0)
@@ -20,7 +22,7 @@ struct ContentView: View {
                 .shadow(color: Color.gray, radius: 6.0, x: 1.5, y: 1.5)
             )
                 .padding(.vertical)
-            MapView().modifier(RoundedRectView()).padding(.horizontal)
+            MapView(centerCoordinates: $locations, currentLocation: $locations).modifier(RoundedRectView()).padding(.horizontal)
             Text("Hallo Denkmale in Berlin!")
                 .padding()
         }

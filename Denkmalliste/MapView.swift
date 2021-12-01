@@ -10,19 +10,49 @@ import UIKit
 import MapKit
 import CoreLocation
 
-struct MapView: View {
-    //@Binding var userCoord: CLLocationCoordinate2D
-    @State private var userRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(), latitudinalMeters: 750, longitudinalMeters: 750)
-    @State private var userTrackingMode = MKUserTrackingMode.follow
-    @State private var allInteractionMode = MapInteractionModes.all
+struct MapView: UIViewRepresentable {
     
-    var body: some View {
-        Map(coordinateRegion: $userRegion, showsUserLocation: true)
+    @Binding var centerCoordinates: CLLocationCoordinate2D
+    @Binding var currentLocation: CLLocationCoordinate2D
+    
+    typealias UIViewType = MKMapView
+    func makeUIView(context: Context) -> MKMapView {
+        let mapView = MKMapView()
+        mapView.delegate = context.coordinator
+        return mapView
+    }
+    
+    func updateUIView(_ uiView: MKMapView, context: Context) {
+        //doso
+        uiView.setCenter(currentLocation, animated: true)
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+}
+
+
+class Coordinator: NSObject, MKMapViewDelegate{
+    var parent: MapView
+    
+    init(_ parent: MapView) {
+        self.parent = parent
+    }
+    
+    func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
+        print("MapView is loaded")
     }
 }
 
+
+#if DEBUG
 struct MapView_Previews: PreviewProvider {
+    // In _Previews muss die State-Property static sein
+    @State static var testLocation = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     static var previews: some View {
-        MapView()
+        MapView(centerCoordinates: $testLocation, currentLocation: $testLocation)
     }
 }
+#endif

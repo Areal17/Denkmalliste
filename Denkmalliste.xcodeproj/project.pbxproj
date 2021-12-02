@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C62FEB70275906B20053C669 /* LocationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62FEB6F275906B20053C669 /* LocationParser.swift */; };
+		C62FEB76275908A60053C669 /* ensembleteil.kml in Resources */ = {isa = PBXBuildFile; fileRef = C62FEB71275908A60053C669 /* ensembleteil.kml */; };
+		C62FEB77275908A60053C669 /* denkmalbereich.kml in Resources */ = {isa = PBXBuildFile; fileRef = C62FEB72275908A60053C669 /* denkmalbereich.kml */; };
+		C62FEB78275908A60053C669 /* baudenkmal.kml in Resources */ = {isa = PBXBuildFile; fileRef = C62FEB73275908A60053C669 /* baudenkmal.kml */; };
+		C62FEB79275908A60053C669 /* bodendenkmal.kml in Resources */ = {isa = PBXBuildFile; fileRef = C62FEB74275908A60053C669 /* bodendenkmal.kml */; };
+		C62FEB7A275908A60053C669 /* gartendenkmal.kml in Resources */ = {isa = PBXBuildFile; fileRef = C62FEB75275908A60053C669 /* gartendenkmal.kml */; };
+		C62FEB7D275909200053C669 /* denkmalliste_berlin.csv in Resources */ = {isa = PBXBuildFile; fileRef = C62FEB7C275909200053C669 /* denkmalliste_berlin.csv */; };
 		C6839F62275642E800313DE5 /* ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6839F61275642E800313DE5 /* ViewModifier.swift */; };
 		C6F97E08275536860032C678 /* DenkmallisteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F97E07275536860032C678 /* DenkmallisteApp.swift */; };
 		C6F97E0A275536860032C678 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F97E09275536860032C678 /* ContentView.swift */; };
@@ -37,6 +44,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C62FEB6F275906B20053C669 /* LocationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationParser.swift; sourceTree = "<group>"; };
+		C62FEB71275908A60053C669 /* ensembleteil.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ensembleteil.kml; sourceTree = "<group>"; };
+		C62FEB72275908A60053C669 /* denkmalbereich.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = denkmalbereich.kml; sourceTree = "<group>"; };
+		C62FEB73275908A60053C669 /* baudenkmal.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = baudenkmal.kml; sourceTree = "<group>"; };
+		C62FEB74275908A60053C669 /* bodendenkmal.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = bodendenkmal.kml; sourceTree = "<group>"; };
+		C62FEB75275908A60053C669 /* gartendenkmal.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = gartendenkmal.kml; sourceTree = "<group>"; };
+		C62FEB7C275909200053C669 /* denkmalliste_berlin.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = denkmalliste_berlin.csv; sourceTree = "<group>"; };
 		C6839F61275642E800313DE5 /* ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifier.swift; sourceTree = "<group>"; };
 		C6F97E04275536860032C678 /* Denkmalliste.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Denkmalliste.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6F97E07275536860032C678 /* DenkmallisteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenkmallisteApp.swift; sourceTree = "<group>"; };
@@ -79,10 +93,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C62FEB7B275908ED0053C669 /* LocationFiles */ = {
+			isa = PBXGroup;
+			children = (
+				C62FEB7C275909200053C669 /* denkmalliste_berlin.csv */,
+				C62FEB73275908A60053C669 /* baudenkmal.kml */,
+				C62FEB74275908A60053C669 /* bodendenkmal.kml */,
+				C62FEB72275908A60053C669 /* denkmalbereich.kml */,
+				C62FEB71275908A60053C669 /* ensembleteil.kml */,
+				C62FEB75275908A60053C669 /* gartendenkmal.kml */,
+			);
+			name = LocationFiles;
+			sourceTree = "<group>";
+		};
 		C6F97DFB275536850032C678 = {
 			isa = PBXGroup;
 			children = (
 				C6F97E06275536860032C678 /* Denkmalliste */,
+				C62FEB7B275908ED0053C669 /* LocationFiles */,
 				C6F97E17275536880032C678 /* DenkmallisteTests */,
 				C6F97E21275536880032C678 /* DenkmallisteUITests */,
 				C6F97E05275536860032C678 /* Products */,
@@ -106,6 +134,7 @@
 				C6F97E3527553C9B0032C678 /* Info.plist */,
 				C6F97E07275536860032C678 /* DenkmallisteApp.swift */,
 				C6F97E09275536860032C678 /* ContentView.swift */,
+				C62FEB6F275906B20053C669 /* LocationParser.swift */,
 				C6F97E33275538D00032C678 /* MapView.swift */,
 				C6839F61275642E800313DE5 /* ViewModifier.swift */,
 				C6F97E0B275536870032C678 /* Assets.xcassets */,
@@ -251,8 +280,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C62FEB78275908A60053C669 /* baudenkmal.kml in Resources */,
+				C62FEB7D275909200053C669 /* denkmalliste_berlin.csv in Resources */,
 				C6F97E0F275536870032C678 /* Preview Assets.xcassets in Resources */,
 				C6F97E0C275536870032C678 /* Assets.xcassets in Resources */,
+				C62FEB77275908A60053C669 /* denkmalbereich.kml in Resources */,
+				C62FEB7A275908A60053C669 /* gartendenkmal.kml in Resources */,
+				C62FEB79275908A60053C669 /* bodendenkmal.kml in Resources */,
+				C62FEB76275908A60053C669 /* ensembleteil.kml in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +315,7 @@
 				C6839F62275642E800313DE5 /* ViewModifier.swift in Sources */,
 				C6F97E0A275536860032C678 /* ContentView.swift in Sources */,
 				C6F97E34275538D00032C678 /* MapView.swift in Sources */,
+				C62FEB70275906B20053C669 /* LocationParser.swift in Sources */,
 				C6F97E08275536860032C678 /* DenkmallisteApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -17,11 +17,16 @@ struct MapView: UIViewRepresentable {
     
     typealias UIViewType = MKMapView
     func makeUIView(context: Context) -> MKMapView {
-        let mapView = MKMapView()
-        mapView.delegate = context.coordinator
-        mapView.isZoomEnabled = true
-        mapView.showsUserLocation = true
-        return mapView
+        let uiMapView = MKMapView()
+        uiMapView.delegate = context.coordinator
+        uiMapView.isZoomEnabled = true
+        uiMapView.showsUserLocation = true
+        let locationManager = CLLocationManager()
+        if locationManager.authorizationStatus == .notDetermined {
+            locationManager.requestAlwaysAuthorization()
+            locationManager.requestWhenInUseAuthorization()
+        }
+        return uiMapView
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
@@ -48,9 +53,21 @@ class Coordinator: NSObject, MKMapViewDelegate{
         parent.currentLocation = mapView.userLocation.coordinate
     }
     
+    func mapViewDidStopLocatingUser(_ mapView: MKMapView) {
+        print("\(mapView) did stop locate user")
+    }
+    
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         parent.currentLocation = userLocation.coordinate
         parent.centerCoordinates = userLocation.coordinate
+    }
+    
+    func mapViewDidFailLoadingMap(_ mapView: MKMapView, withError error: Error) {
+        print(error)
+    }
+    
+    func mapView(_ mapView: MKMapView, didChange mode: MKUserTrackingMode, animated: Bool) {
+        print(mode)
     }
 }
 

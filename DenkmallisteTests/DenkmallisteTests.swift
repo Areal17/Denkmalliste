@@ -9,9 +9,15 @@ import XCTest
 @testable import Denkmalliste
 
 class DenkmallisteTests: XCTestCase {
+    
+    var parser: LocationParser!
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        if let documentURL = Bundle.main.url(forResource: "baudenkmal", withExtension: "kml") {
+            parser = LocationParser(contentsOf: documentURL)
+        }
+        
     }
 
     override func tearDownWithError() throws {
@@ -21,8 +27,14 @@ class DenkmallisteTests: XCTestCase {
     func testExample() throws {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        parser.parseDocument()
     }
-
+    
+    func testGettingPlacemarks() throws {
+        parser.parseDocument()
+        
+    }
+    
     func testPerformanceExample() throws {
         // This is an example of a performance test case.
         self.measure {

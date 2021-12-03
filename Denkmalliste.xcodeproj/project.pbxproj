@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C62BE7EE275A4529008A3A16 /* LocationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62FEB6F275906B20053C669 /* LocationParser.swift */; };
 		C62FEB70275906B20053C669 /* LocationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62FEB6F275906B20053C669 /* LocationParser.swift */; };
 		C62FEB76275908A60053C669 /* ensembleteil.kml in Resources */ = {isa = PBXBuildFile; fileRef = C62FEB71275908A60053C669 /* ensembleteil.kml */; };
 		C62FEB77275908A60053C669 /* denkmalbereich.kml in Resources */ = {isa = PBXBuildFile; fileRef = C62FEB72275908A60053C669 /* denkmalbereich.kml */; };
@@ -325,6 +326,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6F97E19275536880032C678 /* DenkmallisteTests.swift in Sources */,
+				C62BE7EE275A4529008A3A16 /* LocationParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

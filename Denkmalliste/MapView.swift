@@ -29,6 +29,10 @@ struct MapView: UIViewRepresentable {
             locationManager.requestAlwaysAuthorization()
             locationManager.requestWhenInUseAuthorization()
         }
+        if let kmlURL = Bundle.main.url(forResource: "baudenkmal", withExtension: "kml") {
+            let kmlParser = LocationParser(contentsOf: kmlURL)
+        }
+        
         return uiMapView
     }
     

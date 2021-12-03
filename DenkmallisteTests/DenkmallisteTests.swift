@@ -32,7 +32,12 @@ class DenkmallisteTests: XCTestCase {
     
     func testGettingPlacemarks() throws {
         parser.parseDocument()
-        
+        let expectation = XCTestExpectation(description: "Parse Placemarks from KML file")
+        let nc = NotificationCenter.default
+        nc.addObserver(forName: NSNotification.Name("placemarkNotification"), object: nil, queue: OperationQueue.current) { placemarkNotification in
+            XCTAssert(placemarkNotification.userInfo?.isEmpty != true, "Placemarks parsed")
+            expectation.fulfill()
+        }
     }
     
     func testPerformanceExample() throws {

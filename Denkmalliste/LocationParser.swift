@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SwiftUI
 import CoreLocation
 
 
@@ -20,8 +21,8 @@ struct Placemark {
 
 
 
-class LocationParser: NSObject, XMLParserDelegate {
-    
+class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
+    @Published var parsedPlacemarks = [Placemark]()
     let kmlParser: XMLParser?
     var placemark: Placemark?
     var placemarks = [Placemark]()
@@ -34,13 +35,15 @@ class LocationParser: NSObject, XMLParserDelegate {
         if kmlParser != nil {
             kmlParser!.delegate = self
             kmlParser!.shouldProcessNamespaces = false
-            kmlParser!.parse()
         }
     }
     
     func parseDocument(){
         assert(kmlParser != nil, "Parser didn't initialized. Check the URL of the document to parse")
         kmlParser!.parse()
+        #if targetEnvironment(simulator)
+        print("parser is looking for placemarks")
+        #endif
     }
     
     private func getPlaceMarkID(name: String) -> String {
@@ -61,7 +64,7 @@ class LocationParser: NSObject, XMLParserDelegate {
     // pragma mark - XMLParserDelegte
     
     func parserDidStartDocument(_ parser: XMLParser) {
-        
+        print("Parser did Start Document")
     }
     
     func parser(_ parser: XMLParser, foundElementDeclarationWithName elementName: String, model: String) {
@@ -86,6 +89,8 @@ class LocationParser: NSObject, XMLParserDelegate {
             placemarkName = nil
         } else if elementName == "coordinates" {
             currentCoordinates = nil
+        } else if elementName == "Folder" {
+//            print("Folder found")
         }
     }
     
@@ -99,10 +104,16 @@ class LocationParser: NSObject, XMLParserDelegate {
         }
     }
     
+    func parser(_ parser: XMLParser, parseErrorOccurred parseError: Error) {
+        print("ParseError: \(parseError)")
+    }
+    
     func parserDidEndDocument(_ parser: XMLParser) {
-        print("Placemarks: \(placemarks)")
+        print("Did End Document")
         let nc = NotificationCenter.default
         let placemarksToSend = ["pacemarks": placemarks]
+        let parsedPlacemarks = placemarks
+        //sollte überflüssig gemacht werden. Statt dessen ObervableObject
         nc.post(name: NSNotification.Name("placemarkNotification"), object: nil, userInfo: placemarksToSend)
     }
     

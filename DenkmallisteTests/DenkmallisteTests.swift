@@ -30,20 +30,35 @@ class DenkmallisteTests: XCTestCase {
         parser.parseDocument()
     }
     
-    func testGettingPlacemarks() throws {
-        parser.parseDocument()
-        let expectation = XCTestExpectation(description: "Parse Placemarks from KML file")
-        let nc = NotificationCenter.default
-        nc.addObserver(forName: NSNotification.Name("placemarkNotification"), object: nil, queue: OperationQueue.current) { placemarkNotification in
-            XCTAssert(placemarkNotification.userInfo?.isEmpty != true, "Placemarks parsed")
-            expectation.fulfill()
-        }
-    }
+//    func testGettingPlacemarks() throws {
+//        parser.parseDocument()
+//        let expectation = XCTestExpectation(description: "Parse Placemarks from KML file")
+//        let nc = NotificationCenter.default
+//        nc.addObserver(forName: NSNotification.Name("placemarkNotification"), object: nil, queue: OperationQueue.current) { placemarkNotification in
+//            XCTAssert(placemarkNotification.userInfo?.isEmpty == false, "Placemarks parsed")
+//            expectation.fulfill()
+//        }
+//    }
+//    
+//    func testGettingAllPlacemarks() throws {
+//        parser.parseDocument()
+//        let expectation = XCTestExpectation(description: "Parse Placemarks from KML file")
+//        let nc = NotificationCenter.default
+//        nc.addObserver(forName: NSNotification.Name("placemarkNotification"), object: nil, queue: OperationQueue.current) { placemarkNotification in
+//            let placemarks = placemarkNotification.userInfo?["pacemarks"] as? [Placemark]
+//            for placemark in placemarks! {
+//                XCTAssert(placemark.coordinates != nil, "Nil Placemark-coordinatesfounded")
+//            }
+//            expectation.fulfill()
+//        }
+//    }
     
     func testPerformanceExample() throws {
-        // This is an example of a performance test case.
         self.measure {
-            // Put the code you want to measure the time of here.
+            let nc = NotificationCenter.default
+            nc.addObserver(forName: NSNotification.Name("placemarkNotification"), object: nil, queue: OperationQueue.current) { placemarkNotification in
+                
+            }
         }
     }
 

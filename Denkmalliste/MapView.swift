@@ -15,8 +15,17 @@ struct MapView: UIViewRepresentable {
     @Binding var centerCoordinates: CLLocationCoordinate2D
     @Binding var currentLocation: CLLocationCoordinate2D
     @Binding var region: MKCoordinateRegion
-//    @Binding var placemarks: [Placemark]
+    var placemarks: [Placemark]
     typealias UIViewType = MKMapView
+    // MapView(centerCoordinates: $testLocation, currentLocation: $testLocation, region: $testRegion)
+    
+    init(centerCoordinates: Binding<CLLocationCoordinate2D>, currentLocation: Binding<CLLocationCoordinate2D>, region: Binding<MKCoordinateRegion>, placemarks: [Placemark]) {
+//        merkwürdig aber wohl notwendig. Der Unterstrich vor den Binding Variablen.
+        self._centerCoordinates = centerCoordinates
+        self._currentLocation = currentLocation
+        self._region = region
+        self.placemarks = placemarks
+    }
     
     
     func makeUIView(context: Context) -> MKMapView {
@@ -35,7 +44,11 @@ struct MapView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        uiView.setCenter(currentLocation, animated: false)
+        print("updateUIView")
+        if let newCurrentLocation = self.placemarks.first?.coordinates {
+            uiView.setCenter(newCurrentLocation, animated: false)
+        }
+        
     }
     
     func makeCoordinator() -> Coordinator {
@@ -60,13 +73,6 @@ class Coordinator: NSObject, MKMapViewDelegate{
     
     init(_ parent: MapView) {
         self.parent = parent
-//        if let kmlURL = Bundle.main.url(forResource: "baudenkmal", withExtension: "kml") {
-//            let kmlParser = LocationParser(contentsOf: kmlURL)
-//            kmlParser?.parseDocument()
-//        }
-//        NotificationCenter.default.addObserver(forName: NSNotification.Name("placemarkNotification"), object: nil, queue: OperationQueue.current) { placmarksNotification in
-//            let postedPlacmarks = placmarksNotification.userInfo
-//        }
     }
     
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
@@ -102,8 +108,9 @@ struct MapView_Previews: PreviewProvider {
     // In _Previews muss die State-Property static sein
     @State static var testLocation = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     @State static var testRegion = MKCoordinateRegion(center: testLocation, latitudinalMeters: 750, longitudinalMeters: 750)
+    static var placemarks = [Placemark]()
     static var previews: some View {
-        MapView(centerCoordinates: $testLocation, currentLocation: $testLocation, region: $testRegion)
+        MapView(centerCoordinates: $testLocation, currentLocation: $testLocation, region: $testRegion, placemarks: placemarks)
     }
 }
 #endif

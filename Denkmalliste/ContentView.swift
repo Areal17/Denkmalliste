@@ -14,6 +14,7 @@ import MapKit
 struct ContentView: View {
     @State private var locations = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889), latitudinalMeters: 750, longitudinalMeters: 750)
+    @ObservedObject var locationParser = LocationParser(contentsOf: Bundle.main.url(forResource: "baudenkmal", withExtension: "kml")!)!
     var body: some View {
         VStack {
             Text("Denkmale in Berlin").font(.title).background(
@@ -23,7 +24,7 @@ struct ContentView: View {
                 .shadow(color: Color.gray, radius: 6.0, x: 1.5, y: 1.5)
             )
                 .padding(.vertical)
-            MapView(centerCoordinates: $locations, currentLocation: $locations, region: $region).modifier(RoundedRectView()).padding(.horizontal)
+            MapView(centerCoordinates: $locations, currentLocation: $locations, region: $region, placemarks: locationParser.parsedPlacemarks).modifier(RoundedRectView()).padding(.horizontal)
             Text("Hallo Denkmale in Berlin!")
                 .padding()
         }

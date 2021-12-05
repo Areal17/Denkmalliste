@@ -35,6 +35,7 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
         if kmlParser != nil {
             kmlParser!.delegate = self
             kmlParser!.shouldProcessNamespaces = false
+            kmlParser!.parse()
         }
     }
     

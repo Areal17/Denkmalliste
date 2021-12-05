@@ -56,7 +56,7 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     
     private func getCurrentCoordinates(coordinateString: String) -> CLLocationCoordinate2D {
         let coordinateString = coordinateString.split(separator: ",")
-        if let latitude = CLLocationDegrees(coordinateString.first!), let longitude = CLLocationDegrees(coordinateString[1]) {
+        if let latitude = CLLocationDegrees(coordinateString[1]), let longitude = CLLocationDegrees(coordinateString.first!) {
             return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         }
         return CLLocationCoordinate2D()
@@ -113,7 +113,7 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
         print("Did End Document")
         let nc = NotificationCenter.default
         let placemarksToSend = ["pacemarks": placemarks]
-        let parsedPlacemarks = placemarks
+        parsedPlacemarks = placemarks
         //sollte überflüssig gemacht werden. Statt dessen ObervableObject
         nc.post(name: NSNotification.Name("placemarkNotification"), object: nil, userInfo: placemarksToSend)
     }

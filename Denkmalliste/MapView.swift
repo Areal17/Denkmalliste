@@ -19,13 +19,13 @@ struct MapView: UIViewRepresentable {
     typealias UIViewType = MKMapView
     // MapView(centerCoordinates: $testLocation, currentLocation: $testLocation, region: $testRegion)
     
-    init(centerCoordinates: Binding<CLLocationCoordinate2D>, currentLocation: Binding<CLLocationCoordinate2D>, region: Binding<MKCoordinateRegion>, placemarks: [Placemark]) {
+//    init(centerCoordinates: Binding<CLLocationCoordinate2D>, currentLocation: Binding<CLLocationCoordinate2D>, region: Binding<MKCoordinateRegion>, placemarks: [Placemark]) {
 //        merkwürdig aber wohl notwendig. Der Unterstrich vor den Binding Variablen.
-        self._centerCoordinates = centerCoordinates
-        self._currentLocation = currentLocation
-        self._region = region
-        self.placemarks = placemarks
-    }
+//        self._centerCoordinates = centerCoordinates
+//        self._currentLocation = currentLocation
+//        self._region = region
+//        self.placemarks = placemarks
+//    }
     
     
     func makeUIView(context: Context) -> MKMapView {
@@ -44,8 +44,8 @@ struct MapView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        print("updateUIView")
-        if let newCurrentLocation = self.placemarks.first?.coordinates {
+        if let newCurrentLocation = placemarks.first?.coordinates {
+            print(newCurrentLocation)
             uiView.setCenter(newCurrentLocation, animated: false)
         }
         

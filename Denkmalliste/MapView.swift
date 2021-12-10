@@ -17,15 +17,6 @@ struct MapView: UIViewRepresentable {
     @Binding var region: MKCoordinateRegion
     var placemarks: [Placemark]
     typealias UIViewType = MKMapView
-    // MapView(centerCoordinates: $testLocation, currentLocation: $testLocation, region: $testRegion)
-    
-//    init(centerCoordinates: Binding<CLLocationCoordinate2D>, currentLocation: Binding<CLLocationCoordinate2D>, region: Binding<MKCoordinateRegion>, placemarks: [Placemark]) {
-//        merkwürdig aber wohl notwendig. Der Unterstrich vor den Binding Variablen.
-//        self._centerCoordinates = centerCoordinates
-//        self._currentLocation = currentLocation
-//        self._region = region
-//        self.placemarks = placemarks
-//    }
     
     
     func makeUIView(context: Context) -> MKMapView {
@@ -35,20 +26,19 @@ struct MapView: UIViewRepresentable {
         uiMapView.showsUserLocation = true
         uiMapView.showsCompass = true
         uiMapView.setRegion(region, animated: false)
-//        if let kmlURL = Bundle.main.url(forResource: "baudenkmal", withExtension: "kml") {
-//            let kmlParser = LocationParser(contentsOf: kmlURL)
-//            kmlParser?.parseDocument()
-//        }
         
         return uiMapView
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        if let newCurrentLocation = placemarks.first?.coordinates {
-            print(newCurrentLocation)
-            uiView.setCenter(newCurrentLocation, animated: false)
-        }
-        
+        #if targetEnvironment(simulator)
+            if let newCurrentLocation = placemarks.first?.coordinates {
+                uiView.setCenter(newCurrentLocation, animated: false)
+            }
+        #else
+        uiView.setCenter(currentLocation, animated: false)
+        #endif
+       
     }
     
     func makeCoordinator() -> Coordinator {

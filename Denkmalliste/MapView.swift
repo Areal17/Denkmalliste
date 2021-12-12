@@ -34,23 +34,40 @@ struct MapView: UIViewRepresentable {
         #if targetEnvironment(simulator)
             if let newCurrentLocation = placemarks.first?.coordinates {
                 uiView.setCenter(newCurrentLocation, animated: false)
+                _ = getCurrentAnnotations(forPlacemarks: placemarks, at: newCurrentLocation)
+                let userLocation = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
+                let firstPlacemarkLocation = CLLocation(latitude: newCurrentLocation.latitude, longitude: newCurrentLocation.longitude)
+                let distance = userLocation.distance(from: firstPlacemarkLocation)
+                print("Der User ist: \(distance / 1000) km entfernt")
+//                Zwei Werte werden ausgegeben: Fautenbach und London
+                let nearbyAnnotations = getCurrentAnnotations(forPlacemarks: placemarks, at: newCurrentLocation)
+                uiView.addAnnotations(nearbyAnnotations)
             }
         #else
         uiView.setCenter(currentLocation, animated: false)
+        let nearbyAnnotations = getCurrentAnnotations(forPlacemarks: placemarks, at: currentLocation)
+        uiView.addAnnotations(nearbyAnnotations)
         #endif
-       
+        
     }
     
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
     
-    func getCurrentAnnotations(forPlacemarks: [Placemark]) -> [MKPointAnnotation] {
+    func getCurrentAnnotations(forPlacemarks: [Placemark], at location: CLLocationCoordinate2D ) -> [MKPointAnnotation] {
         var pointAnnotations = [MKPointAnnotation]()
+        let userLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
         for placemark in forPlacemarks {
-            let pointAnnotation = MKPointAnnotation()
-            pointAnnotation.coordinate = placemark.coordinates!
-            pointAnnotations.append(pointAnnotation)
+            let placemarkCoordinate = CLLocation(latitude: placemark.coordinates!.latitude, longitude: placemark.coordinates!.longitude)
+            let distanceToUserlocation = placemarkCoordinate.distance(from: userLocation)
+//            print(distanceToUserlocation)
+            if distanceToUserlocation <= 7500 { // der Wert muss dynamisch sein und sich auf die Region beziehen, die angezeigt wird
+                let pointAnnotation = MKPointAnnotation()
+                pointAnnotation.title = placemark.name
+                pointAnnotation.coordinate = placemark.coordinates!
+                pointAnnotations.append(pointAnnotation)
+            }
         }
         return pointAnnotations
     }
@@ -71,7 +88,7 @@ class Coordinator: NSObject, MKMapViewDelegate{
     }
     
     func mapViewDidStopLocatingUser(_ mapView: MKMapView) {
-        print("\(mapView) did stop locate user")
+        //print("\(mapView) did stop locate user")
     }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
@@ -88,7 +105,17 @@ class Coordinator: NSObject, MKMapViewDelegate{
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        return MKAnnotationView()
+        guard annotation is MKPointAnnotation else { return nil }
+        let identifier = "Annotation"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+        if annotationView == nil {
+            annotationView = DenkmalAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+//            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView!.canShowCallout = true
+        } else {
+            annotationView!.annotation = annotation
+        }
+        return annotationView
     }
 }
 

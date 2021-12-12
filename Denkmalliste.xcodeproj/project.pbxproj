@@ -16,6 +16,7 @@
 		C62FEB7A275908A60053C669 /* gartendenkmal.kml in Resources */ = {isa = PBXBuildFile; fileRef = C62FEB75275908A60053C669 /* gartendenkmal.kml */; };
 		C62FEB7D275909200053C669 /* denkmalliste_berlin.csv in Resources */ = {isa = PBXBuildFile; fileRef = C62FEB7C275909200053C669 /* denkmalliste_berlin.csv */; };
 		C6839F62275642E800313DE5 /* ViewModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6839F61275642E800313DE5 /* ViewModifier.swift */; };
+		C6E4A2F32766375700E8E693 /* DenkmalAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E4A2F22766375700E8E693 /* DenkmalAnnotationView.swift */; };
 		C6F97E08275536860032C678 /* DenkmallisteApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F97E07275536860032C678 /* DenkmallisteApp.swift */; };
 		C6F97E0A275536860032C678 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F97E09275536860032C678 /* ContentView.swift */; };
 		C6F97E0C275536870032C678 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6F97E0B275536870032C678 /* Assets.xcassets */; };
@@ -53,6 +54,7 @@
 		C62FEB75275908A60053C669 /* gartendenkmal.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = gartendenkmal.kml; sourceTree = "<group>"; };
 		C62FEB7C275909200053C669 /* denkmalliste_berlin.csv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = denkmalliste_berlin.csv; sourceTree = "<group>"; };
 		C6839F61275642E800313DE5 /* ViewModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModifier.swift; sourceTree = "<group>"; };
+		C6E4A2F22766375700E8E693 /* DenkmalAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenkmalAnnotationView.swift; sourceTree = "<group>"; };
 		C6F97E04275536860032C678 /* Denkmalliste.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Denkmalliste.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6F97E07275536860032C678 /* DenkmallisteApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DenkmallisteApp.swift; sourceTree = "<group>"; };
 		C6F97E09275536860032C678 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				C6F97E33275538D00032C678 /* MapView.swift */,
 				C6839F61275642E800313DE5 /* ViewModifier.swift */,
 				C6F97E0B275536870032C678 /* Assets.xcassets */,
+				C6E4A2F22766375700E8E693 /* DenkmalAnnotationView.swift */,
 				C6F97E0D275536870032C678 /* Preview Content */,
 			);
 			path = Denkmalliste;
@@ -315,6 +318,7 @@
 			files = (
 				C6839F62275642E800313DE5 /* ViewModifier.swift in Sources */,
 				C6F97E0A275536860032C678 /* ContentView.swift in Sources */,
+				C6E4A2F32766375700E8E693 /* DenkmalAnnotationView.swift in Sources */,
 				C6F97E34275538D00032C678 /* MapView.swift in Sources */,
 				C62FEB70275906B20053C669 /* LocationParser.swift in Sources */,
 				C6F97E08275536860032C678 /* DenkmallisteApp.swift in Sources */,

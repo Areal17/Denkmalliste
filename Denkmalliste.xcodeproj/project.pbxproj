@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C6004907276E32970038E246 /* CSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6004906276E32970038E246 /* CSVParser.swift */; };
 		C62BE7EE275A4529008A3A16 /* LocationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62FEB6F275906B20053C669 /* LocationParser.swift */; };
 		C62FEB70275906B20053C669 /* LocationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62FEB6F275906B20053C669 /* LocationParser.swift */; };
 		C62FEB76275908A60053C669 /* ensembleteil.kml in Resources */ = {isa = PBXBuildFile; fileRef = C62FEB71275908A60053C669 /* ensembleteil.kml */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		C6004906276E32970038E246 /* CSVParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParser.swift; sourceTree = "<group>"; };
 		C62FEB6F275906B20053C669 /* LocationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationParser.swift; sourceTree = "<group>"; };
 		C62FEB71275908A60053C669 /* ensembleteil.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ensembleteil.kml; sourceTree = "<group>"; };
 		C62FEB72275908A60053C669 /* denkmalbereich.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = denkmalbereich.kml; sourceTree = "<group>"; };
@@ -139,6 +141,7 @@
 				C6F97E09275536860032C678 /* ContentView.swift */,
 				C62FEB6F275906B20053C669 /* LocationParser.swift */,
 				C6F97E33275538D00032C678 /* MapView.swift */,
+				C6004906276E32970038E246 /* CSVParser.swift */,
 				C6839F61275642E800313DE5 /* ViewModifier.swift */,
 				C6F97E0B275536870032C678 /* Assets.xcassets */,
 				C6E4A2F22766375700E8E693 /* DenkmalAnnotationView.swift */,
@@ -321,6 +324,7 @@
 				C6E4A2F32766375700E8E693 /* DenkmalAnnotationView.swift in Sources */,
 				C6F97E34275538D00032C678 /* MapView.swift in Sources */,
 				C62FEB70275906B20053C669 /* LocationParser.swift in Sources */,
+				C6004907276E32970038E246 /* CSVParser.swift in Sources */,
 				C6F97E08275536860032C678 /* DenkmallisteApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

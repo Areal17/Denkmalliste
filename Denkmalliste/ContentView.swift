@@ -15,7 +15,7 @@ struct ContentView: View {
     @State private var locations = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889), latitudinalMeters: 750, longitudinalMeters: 750)
     @ObservedObject var locationParser = LocationParser(contentsOf: Bundle.main.url(forResource: "baudenkmal", withExtension: "kml")!)!
-    @State var monuments = [[String: String]]()
+    @State var monuments = [Int: Monument]()
     var body: some View {
         VStack {
             Text("Denkmale in Berlin").font(.title).background(
@@ -30,7 +30,7 @@ struct ContentView: View {
                     if let csvFileURL =  Bundle.main.url(forResource: "denkmalliste_berlin", withExtension: "csv") {
                         do {
                             monuments = try await CSVParser().parseCSVFile(fileURL:csvFileURL, lineSeperator: ControlCharacter.windowsLineFeed)
-                            print(monuments.first)
+                            print(monuments[9020487])
                         } catch {
                             print(error)
                         }

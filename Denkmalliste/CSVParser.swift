@@ -19,10 +19,43 @@ enum ControlCharacter: Character {
 }
 
 
+struct Monument {
+   
+//    private enum CodingKeys: String, CodingKey {
+//        case objectDocNr = "ObjDokNr"
+//        case locality = "Ortsteil"
+//        case borough = "Bezirk"
+//        case kindOfMonument = "Denkmalart"
+//        case ensembleState = "EnsembleStatus"
+//        case address = "Adresse"
+//        case belongsTo  = "Zugehörigkeit"
+//        case architect = "Architekt/Künstler"
+//        case furtherInformation = "WeitereInformationen"
+//        case monumentDescription = "Beschreibung"
+//        case dating = "Datierung"
+//        case entry = "Eintragung"
+//    }
+    
+    var objectDocNr: Int?
+    var locality: String = ""
+    var borough: String = ""
+    var kindOfMonument: String = ""
+    var ensembleState: String = ""
+    var address: String = ""
+    var belongsTo: String = ""
+    var architect: String = ""
+    var furtherInformation: String = ""
+    var monumentDescription: String = ""
+    var dating: String = ""
+    var entry: String = ""
+    
+}
+
+
 class CSVParser {
 //    TODO: Ändern! Rückgabe soll Dict mit der ObjDocNr als Key und Momnument Struct als Value
     
-    func parseCSVFile(fileURL: URL, lineSeperator: ControlCharacter) async throws -> [[String:String]] {
+    func parseCSVFile(fileURL: URL, lineSeperator: ControlCharacter) async throws -> [Int: Monument] {
         var csvSubstringLines: [Substring]!
         do {
             let csvContent = try String(contentsOf: fileURL, encoding: .ascii)
@@ -31,20 +64,51 @@ class CSVParser {
             print("ReadError: \(error)")
             throw error
         }
-        var csvContentLine = [String: String]()
-        var csvContentLines = [[String: String]]()
+//        var csvContentLine = [String: String]()
+        var monuments = [Int: Monument]()
+//        var csvContentLines = [[String: String]]()
         let header = csvSubstringLines.removeFirst()
         let headerElements = header.split(separator: ";")
         for line in csvSubstringLines {
             let lineElements = line.split(separator: ";")
+            var currentMonument = Monument()
+            var objectNumber: Int?
             for (idx, headerElement) in headerElements.enumerated() {
                 if lineElements.indices.contains(idx) {
-                    csvContentLine[String(headerElement)] = String(lineElements[idx])
-                }
+                    switch String(headerElement) {
+                        case "Zugehörigkeit":
+                            currentMonument.belongsTo = String(lineElements[idx])
+                        case "ObjDokNr":
+                            objectNumber = Int(lineElements[idx])
+                            currentMonument.objectDocNr = Int(lineElements[idx])
+                        case "Datierung":
+                            currentMonument.dating = String(lineElements[idx])
+                        case "Denkmalart":
+                            currentMonument.kindOfMonument = String(lineElements[idx])
+                        case "Bezirk":
+                            currentMonument.borough = String(lineElements[idx])
+//                            print(String(lineElements[idx]))
+                        case "EnsembleStatus":
+                            currentMonument.ensembleState = String(lineElements[idx])
+                        case "Ortsteil":
+                            currentMonument.locality = String(lineElements[idx])
+                        case "Beschreibung":
+                            currentMonument.monumentDescription = String(lineElements[idx])
+                        case "Architekt/Künstler":
+                            currentMonument.architect = String(lineElements[idx])
+                        case "Adresse":
+                            currentMonument.address = String(lineElements[idx])
+                        case "WeitereInformationen":
+                            currentMonument.furtherInformation = String(lineElements[idx])
+                        case "Eintragung":
+                            currentMonument.entry = String(lineElements[idx])
+                        default:
+                            print("Kein Monumenten Eintrag")
+                    }
             }
-            csvContentLines.append(csvContentLine)
         }
-        return csvContentLines
+        monuments[objectNumber!] = currentMonument
     }
-    
+    return monuments
+    }
 }

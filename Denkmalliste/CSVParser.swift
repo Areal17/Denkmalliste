@@ -20,6 +20,7 @@ enum ControlCharacter: Character {
 
 
 class CSVParser {
+//    TODO: Ändern! Rückgabe soll Dict mit der ObjDocNr als Key und Momnument Struct als Value
     
     func parseCSVFile(fileURL: URL, lineSeperator: ControlCharacter) async throws -> [[String:String]] {
         var csvSubstringLines: [Substring]!

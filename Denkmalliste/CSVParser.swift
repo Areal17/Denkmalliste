@@ -53,8 +53,6 @@ struct Monument {
 
 
 class CSVParser {
-//    TODO: Ändern! Rückgabe soll Dict mit der ObjDocNr als Key und Momnument Struct als Value
-    
     func parseCSVFile(fileURL: URL, lineSeperator: ControlCharacter) async throws -> [Int: Monument] {
         var csvSubstringLines: [Substring]!
         do {
@@ -64,9 +62,7 @@ class CSVParser {
             print("ReadError: \(error)")
             throw error
         }
-//        var csvContentLine = [String: String]()
         var monuments = [Int: Monument]()
-//        var csvContentLines = [[String: String]]()
         let header = csvSubstringLines.removeFirst()
         let headerElements = header.split(separator: ";")
         for line in csvSubstringLines {
@@ -87,7 +83,6 @@ class CSVParser {
                             currentMonument.kindOfMonument = String(lineElements[idx])
                         case "Bezirk":
                             currentMonument.borough = String(lineElements[idx])
-//                            print(String(lineElements[idx]))
                         case "EnsembleStatus":
                             currentMonument.ensembleState = String(lineElements[idx])
                         case "Ortsteil":

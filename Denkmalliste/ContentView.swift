@@ -30,7 +30,7 @@ struct ContentView: View {
                     if let csvFileURL =  Bundle.main.url(forResource: "denkmalliste_berlin", withExtension: "csv") {
                         do {
                             monuments = try await CSVParser().parseCSVFile(fileURL:csvFileURL, lineSeperator: ControlCharacter.windowsLineFeed)
-                            print("Denkmäler geladen")
+                            print(monuments.first)
                         } catch {
                             print(error)
                         }

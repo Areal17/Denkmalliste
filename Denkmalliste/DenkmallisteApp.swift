@@ -13,9 +13,6 @@ struct DenkmallisteApp: App {
     
     init() {
         askForPermission()
-//        NotificationCenter.default.addObserver(forName: NSNotification.Name("placemarkNotification"), object: nil, queue: OperationQueue.current) { placmarksNotification in
-//            let postedPlacmarks = placmarksNotification.userInfo?["placemarks"]
-//        }
     }
     
     var body: some Scene {

@@ -25,21 +25,31 @@ struct ContentView: View {
                 .shadow(color: Color.gray, radius: 6.0, x: 1.5, y: 1.5)
             )
                 .padding(.vertical)
-            MapView(centerCoordinates: $locations, currentLocation: $locations, region: $region, placemarks: locationParser.parsedPlacemarks).modifier(RoundedRectView()).padding(.horizontal)
-                .task {
-                    if let csvFileURL =  Bundle.main.url(forResource: "denkmalliste_berlin", withExtension: "csv") {
-                        do {
-                            monuments = try await CSVParser().parseCSVFile(fileURL:csvFileURL, lineSeperator: ControlCharacter.windowsLineFeed)
-                            print(monuments[9020487])
-                        } catch {
-                            print(error)
-                        }
-                    }
-                }
+            MapView(centerCoordinates: $locations, currentLocation: $locations, region: $region,monuments: $monuments, placemarks: locationParser.parsedPlacemarks).modifier(RoundedRectView()).padding(.horizontal)
+//                .task {
+//                    if let csvFileURL =  Bundle.main.url(forResource: "denkmalliste_berlin", withExtension: "csv") {
+//                        do {
+//                            monuments = try await CSVParser().parseCSVFile(fileURL:csvFileURL, lineSeperator: ControlCharacter.windowsLineFeed)
+//                            print(monuments[9020487])
+//                        } catch {
+//                            print(error)
+//                        }
+//                    }
+//                }
             Text("Hallo Denkmale in Berlin!")
                 .padding()
         }
         .background(Color(.sRGB, red: (232.0 / 255.0), green: (232.0 / 255.0), blue: (232.0 / 255.0), opacity: 1.0))
+        .task {
+            if let csvFileURL =  Bundle.main.url(forResource: "denkmalliste_berlin", withExtension: "csv") {
+                do {
+                    monuments = try await CSVParser().parseCSVFile(fileURL:csvFileURL, lineSeperator: ControlCharacter.windowsLineFeed)
+                    print(monuments[9020487])
+                } catch {
+                    print(error)
+                }
+            }
+        }
     }
 }
 

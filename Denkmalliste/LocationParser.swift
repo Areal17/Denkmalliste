@@ -110,12 +110,7 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     }
     
     func parserDidEndDocument(_ parser: XMLParser) {
-        print("Did End Document")
-        let nc = NotificationCenter.default
-        let placemarksToSend = ["pacemarks": placemarks]
         parsedPlacemarks = placemarks
-        //sollte überflüssig gemacht werden. Statt dessen ObervableObject
-        nc.post(name: NSNotification.Name("placemarkNotification"), object: nil, userInfo: placemarksToSend)
     }
     
 }

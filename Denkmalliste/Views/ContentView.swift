@@ -17,6 +17,7 @@ struct ContentView: View {
     @ObservedObject var locationParser = LocationParser(contentsOf: Bundle.main.url(forResource: "baudenkmal", withExtension: "kml")!)!
     @State var monuments = [Int: Monument]()
     @State var showDetail = false
+    @State var currentMonument: Monument?
     var body: some View {
         NavigationView {
             
@@ -28,8 +29,15 @@ struct ContentView: View {
                     .shadow(color: Color.gray, radius: 6.0, x: 1.5, y: 1.5)
                 )
                     .padding(.vertical)
-                MapView(centerCoordinates: $locations, currentLocation: $locations, region: $region,monuments: $monuments, showDetail: $showDetail, placemarks: locationParser.parsedPlacemarks).modifier(RoundedRectView()).padding(.horizontal)
-                NavigationLink(destination: Text("Details hier"), isActive: $showDetail) { }
+                MapView(centerCoordinates: $locations,
+                        currentLocation: $locations,
+                        region: $region,
+                        monuments: $monuments,
+                        currentMonument: $currentMonument,
+                        showDetail: $showDetail,
+                        placemarks: locationParser.parsedPlacemarks)
+                            .modifier(RoundedRectView()).padding(.horizontal)
+                NavigationLink(destination: MonumentDetailView(monument: currentMonument), isActive: $showDetail) { }
                 Text("Hallo Denkmale in Berlin!")
                     .padding()
             }

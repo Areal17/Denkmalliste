@@ -20,6 +20,7 @@ struct MapView: UIViewRepresentable {
     @Binding var currentLocation: CLLocationCoordinate2D
     @Binding var region: MKCoordinateRegion
     @Binding var monuments: [Int: Monument]
+    @Binding var currentMonument: Monument?
     @Binding var showDetail: Bool
     var placemarks: [Placemark]
     typealias UIViewType = MKMapView
@@ -135,14 +136,17 @@ class Coordinator: NSObject, MKMapViewDelegate{
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        print("Did Select")
-        
+        let currentAnnotationView = view as! MonumentAnnotationView
+        let currentMonumentAnnotation = currentAnnotationView.annotation as! MonumentPointAnnotation
+        let currenMonumentID = currentMonumentAnnotation.objectID
+        parent.currentMonument = parent.monuments[currenMonumentID]
     }
     
-    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-        print("Deselect")
-        
-    }
+//
+//    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+//        print("Deselect")
+//
+//    }
     
     
 }
@@ -155,9 +159,10 @@ struct MapView_Previews: PreviewProvider {
     @State static var testRegion = MKCoordinateRegion(center: testLocation, latitudinalMeters: 750, longitudinalMeters: 750)
     @State static var testMonuments = [Int: Monument]()
     @State static var showDetail = false
+    @State static var testMonument: Monument?
     static var placemarks = [Placemark]()
     static var previews: some View {
-        MapView(centerCoordinates: $testLocation, currentLocation: $testLocation, region: $testRegion,monuments: $testMonuments, showDetail: $showDetail, placemarks: placemarks)
+        MapView(centerCoordinates: $testLocation, currentLocation: $testLocation, region: $testRegion,monuments: $testMonuments,currentMonument: $testMonument, showDetail: $showDetail, placemarks: placemarks)
     }
 }
 #endif

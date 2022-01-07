@@ -21,20 +21,20 @@ enum ControlCharacter: Character {
 
 struct Monument {
    
-//    private enum CodingKeys: String, CodingKey {
-//        case objectDocNr = "ObjDokNr"
-//        case locality = "Ortsteil"
-//        case borough = "Bezirk"
-//        case kindOfMonument = "Denkmalart"
-//        case ensembleState = "EnsembleStatus"
-//        case address = "Adresse"
-//        case belongsTo  = "Zugehörigkeit"
-//        case architect = "Architekt/Künstler"
-//        case furtherInformation = "WeitereInformationen"
-//        case monumentDescription = "Beschreibung"
-//        case dating = "Datierung"
-//        case entry = "Eintragung"
-//    }
+    private enum CodingKeys: String, CodingKey {
+        case objectDocNr = "ObjDokNr"
+        case locality = "Ortsteil"
+        case borough = "Bezirk"
+        case kindOfMonument = "Denkmalart"
+        case ensembleState = "EnsembleStatus"
+        case address = "Adresse"
+        case belongsTo  = "Zugehörigkeit"
+        case architect = "Architekt/Künstler"
+        case furtherInformation = "WeitereInformationen"
+        case monumentDescription = "Beschreibung"
+        case dating = "Datierung"
+        case entry = "Eintragung"
+    }
     
     var objectDocNr: Int?
     var locality: String = ""

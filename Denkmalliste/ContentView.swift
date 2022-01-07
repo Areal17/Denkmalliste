@@ -16,6 +16,7 @@ struct ContentView: View {
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889), latitudinalMeters: 750, longitudinalMeters: 750)
     @ObservedObject var locationParser = LocationParser(contentsOf: Bundle.main.url(forResource: "baudenkmal", withExtension: "kml")!)!
     @State var monuments = [Int: Monument]()
+    @State var showDetail = false
     var body: some View {
         VStack {
             Text("Denkmale in Berlin").font(.title).background(
@@ -25,17 +26,7 @@ struct ContentView: View {
                 .shadow(color: Color.gray, radius: 6.0, x: 1.5, y: 1.5)
             )
                 .padding(.vertical)
-            MapView(centerCoordinates: $locations, currentLocation: $locations, region: $region,monuments: $monuments, placemarks: locationParser.parsedPlacemarks).modifier(RoundedRectView()).padding(.horizontal)
-//                .task {
-//                    if let csvFileURL =  Bundle.main.url(forResource: "denkmalliste_berlin", withExtension: "csv") {
-//                        do {
-//                            monuments = try await CSVParser().parseCSVFile(fileURL:csvFileURL, lineSeperator: ControlCharacter.windowsLineFeed)
-//                            print(monuments[9020487])
-//                        } catch {
-//                            print(error)
-//                        }
-//                    }
-//                }
+            MapView(centerCoordinates: $locations, currentLocation: $locations, region: $region,monuments: $monuments, showDetail: $showDetail, placemarks: locationParser.parsedPlacemarks).modifier(RoundedRectView()).padding(.horizontal)
             Text("Hallo Denkmale in Berlin!")
                 .padding()
         }
@@ -44,7 +35,6 @@ struct ContentView: View {
             if let csvFileURL =  Bundle.main.url(forResource: "denkmalliste_berlin", withExtension: "csv") {
                 do {
                     monuments = try await CSVParser().parseCSVFile(fileURL:csvFileURL, lineSeperator: ControlCharacter.windowsLineFeed)
-                    print(monuments[9020487])
                 } catch {
                     print(error)
                 }
@@ -58,3 +48,4 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+//

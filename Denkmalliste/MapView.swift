@@ -27,6 +27,7 @@ struct MapView: UIViewRepresentable {
     @Binding var currentLocation: CLLocationCoordinate2D
     @Binding var region: MKCoordinateRegion
     @Binding var monuments: [Int: Monument]
+    @Binding var showDetail: Bool
     var placemarks: [Placemark]
     typealias UIViewType = MKMapView
     
@@ -132,8 +133,7 @@ class Coordinator: NSObject, MKMapViewDelegate{
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        let selectedAnnotation = view.annotation
-        let objectNumber = selectedAnnotation?.title
+        parent.showDetail = true
     }
     
     
@@ -146,9 +146,10 @@ struct MapView_Previews: PreviewProvider {
     @State static var testLocation = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     @State static var testRegion = MKCoordinateRegion(center: testLocation, latitudinalMeters: 750, longitudinalMeters: 750)
     @State static var testMonuments = [Int: Monument]()
+    @State static var showDetail = false
     static var placemarks = [Placemark]()
     static var previews: some View {
-        MapView(centerCoordinates: $testLocation, currentLocation: $testLocation, region: $testRegion,monuments: $testMonuments, placemarks: placemarks)
+        MapView(centerCoordinates: $testLocation, currentLocation: $testLocation, region: $testRegion,monuments: $testMonuments, showDetail: $showDetail, placemarks: placemarks)
     }
 }
 #endif

@@ -11,14 +11,7 @@ import MapKit
 import CoreLocation
 
 
-class MonumentPointAnnotation: MKPointAnnotation {
-    var objectID: Int
-    
-    init(objectID: Int) {
-        self.objectID = objectID
-        super.init()
-    }
-}
+
 
 
 struct MapView: UIViewRepresentable {
@@ -124,7 +117,7 @@ class Coordinator: NSObject, MKMapViewDelegate{
         let identifier = "Annotation"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
         if annotationView == nil {
-            annotationView = DenkmalAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView = MonumentAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView!.canShowCallout = true
         } else {
             annotationView!.annotation = annotation
@@ -132,7 +125,18 @@ class Coordinator: NSObject, MKMapViewDelegate{
         return annotationView
     }
     
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        print("Callout tapped")
+        print(control)
+    }
+    
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        print("Did Select")
+        
+    }
+    
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
+        print("Deselect")
         parent.showDetail = true
     }
     

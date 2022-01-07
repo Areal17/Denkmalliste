@@ -1,14 +1,24 @@
 //
-//  DenkmalAnnotationView.swift
+//  MonumentAnnotation.swift
 //  Denkmalliste
 //
-//  Created by Ingo Wiederoder on 12.12.21.
+//  Created by Ingo Wiederoder on 07.01.22.
 //
 
-import UIKit
+import Foundation
 import MapKit
 
-class DenkmalAnnotationView: MKAnnotationView {
+class MonumentPointAnnotation: MKPointAnnotation {
+    var objectID: Int
+    
+    init(objectID: Int) {
+        self.objectID = objectID
+        super.init()
+    }
+}
+
+
+class MonumentAnnotationView: MKAnnotationView {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

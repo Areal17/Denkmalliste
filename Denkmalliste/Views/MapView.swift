@@ -119,6 +119,8 @@ class Coordinator: NSObject, MKMapViewDelegate{
         if annotationView == nil {
             annotationView = MonumentAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView!.canShowCallout = true
+            annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+            //vielleicht noch in leftCallout... Icon für Art des Denkmals (Bauwerk, Ensemble etc...)
         } else {
             annotationView!.annotation = annotation
         }
@@ -127,7 +129,7 @@ class Coordinator: NSObject, MKMapViewDelegate{
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         print("Callout tapped")
-        print(control)
+        parent.showDetail = true
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
@@ -137,7 +139,7 @@ class Coordinator: NSObject, MKMapViewDelegate{
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
         print("Deselect")
-        parent.showDetail = true
+        
     }
     
     

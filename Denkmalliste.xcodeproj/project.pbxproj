@@ -111,6 +111,25 @@
 			name = LocationFiles;
 			sourceTree = "<group>";
 		};
+		C6DB1F272788756500C13850 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C6F97E09275536860032C678 /* ContentView.swift */,
+				C6F97E33275538D00032C678 /* MapView.swift */,
+				C6DB1F252788726100C13850 /* MonumentAnnotation.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C6DB1F282788758200C13850 /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				C62FEB6F275906B20053C669 /* LocationParser.swift */,
+				C6004906276E32970038E246 /* CSVParser.swift */,
+			);
+			path = Parser;
+			sourceTree = "<group>";
+		};
 		C6F97DFB275536850032C678 = {
 			isa = PBXGroup;
 			children = (
@@ -138,11 +157,8 @@
 			children = (
 				C6F97E3527553C9B0032C678 /* Info.plist */,
 				C6F97E07275536860032C678 /* DenkmallisteApp.swift */,
-				C6F97E09275536860032C678 /* ContentView.swift */,
-				C62FEB6F275906B20053C669 /* LocationParser.swift */,
-				C6F97E33275538D00032C678 /* MapView.swift */,
-				C6DB1F252788726100C13850 /* MonumentAnnotation.swift */,
-				C6004906276E32970038E246 /* CSVParser.swift */,
+				C6DB1F272788756500C13850 /* Views */,
+				C6DB1F282788758200C13850 /* Parser */,
 				C6839F61275642E800313DE5 /* ViewModifier.swift */,
 				C6F97E0B275536870032C678 /* Assets.xcassets */,
 				C6F97E0D275536870032C678 /* Preview Content */,

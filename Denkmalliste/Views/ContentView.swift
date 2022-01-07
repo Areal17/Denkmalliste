@@ -19,6 +19,7 @@ struct ContentView: View {
     @State var showDetail = false
     var body: some View {
         NavigationView {
+            
             VStack {
                 Text("Denkmale in Berlin").font(.title).background(
                     RoundedRectangle(cornerRadius: 6.0)
@@ -28,6 +29,7 @@ struct ContentView: View {
                 )
                     .padding(.vertical)
                 MapView(centerCoordinates: $locations, currentLocation: $locations, region: $region,monuments: $monuments, showDetail: $showDetail, placemarks: locationParser.parsedPlacemarks).modifier(RoundedRectView()).padding(.horizontal)
+                NavigationLink(destination: Text("Details hier"), isActive: $showDetail) { }
                 Text("Hallo Denkmale in Berlin!")
                     .padding()
             }
@@ -41,9 +43,6 @@ struct ContentView: View {
                         print(error)
                     }
                 }
-            }
-            if showDetail == true {
-                NavigationLink(destination: Text("Details hier")) { }
             }
         }
     }

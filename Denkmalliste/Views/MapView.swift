@@ -128,8 +128,10 @@ class Coordinator: NSObject, MKMapViewDelegate{
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        print("Callout tapped")
-        parent.showDetail = true
+        let tappedButton = control as! UIButton
+        if tappedButton.isTouchInside {
+            parent.showDetail = true
+        }
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {

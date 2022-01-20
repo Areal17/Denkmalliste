@@ -26,7 +26,7 @@ struct ContentView: View {
                     RoundedRectangle(cornerRadius: 6.0)
                         .fill(Color(.sRGB, red: (243.0 / 255.0), green: (243.0 / 255.0), blue: (243.0 / 255.0), opacity: 1.0))
                         .frame(width: 280, height: 44, alignment: .center)
-                    .shadow(color: Color.gray, radius: 6.0, x: 1.5, y: 1.5)
+                        .modifier(monumentBackgroundShadow())
                 )
                     .padding(.vertical)
                 MapView(centerCoordinates: $locations,

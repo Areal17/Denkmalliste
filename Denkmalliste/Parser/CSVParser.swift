@@ -48,7 +48,7 @@ struct Monument {
     var monumentDescription: String = ""
     var dating: String = ""
     var entry: String = ""
-    
+    var placemark: Placemark?
 }
 
 
@@ -107,3 +107,5 @@ class CSVParser {
     return monuments
     }
 }
+
+

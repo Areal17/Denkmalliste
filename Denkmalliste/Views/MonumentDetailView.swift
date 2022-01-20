@@ -6,32 +6,49 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct MonumentDetailView: View {
     var monument: Monument?
+    @State var coordinateRegion: MKCoordinateRegion = MKCoordinateRegion()
     var body: some View {
         VStack {
-            Text("Details").font(.title).background(
+            Text("Details")
+                .font(.title)
+                .background(
                 RoundedRectangle(cornerRadius: 6.0)
                     .fill(Color(.sRGB, red: (243.0 / 255.0), green: (243.0 / 255.0), blue: (243.0 / 255.0), opacity: 1.0))
                     .frame(width: 280, height: 44, alignment: .center)
-                .shadow(color: Color.gray, radius: 6.0, x: 1.5, y: 1.5)
+                    .modifier(monumentBackgroundShadow())
             )
-//                .padding(.vertical)
+                .padding(.vertical)
             if monument != nil {
                 VStack{
-                    Text(monument!.address)
-                        .padding(.top)
-                    Text(monument!.monumentDescription)
-                        .padding(.vertical)
-                    Text("Archiktekt: \(monument!.architect)")
-                        .padding(.vertical)
-                        .font(.footnote)
-                    Spacer()
+                    if monument!.placemark != nil {
+                        Map(coordinateRegion: $coordinateRegion)
+                            .modifier(monumentBackgroundShadow())
+                    }
+                        Text(monument!.address)
+                            .padding(.vertical)
+                        Text(monument!.monumentDescription)
+                            .padding(.vertical)
+                        Text("Archiktekt: \(monument!.architect)")
+                            .padding(.vertical)
+                            .font(.footnote)
+                        Spacer()
                 }
+                .background(Color(.sRGB, red: (243.0 / 255.0), green: (243.0 / 255.0), blue: (243.0 / 255.0), opacity: 1.0))
+                //.frame(width: .infinity, alignment: .center)
+                .clipShape(RoundedRectangle(cornerRadius: 6.0))
+                .modifier(monumentBackgroundShadow())
+                .padding(.bottom)
             }
         }
-            
+        .onAppear {
+            if let currentMonument = monument, let currentPlacemark = currentMonument.placemark {
+                coordinateRegion = MKCoordinateRegion(center: currentPlacemark.coordinates!, latitudinalMeters: 450, longitudinalMeters: 450)
+            }
+        }
     }
 }
 

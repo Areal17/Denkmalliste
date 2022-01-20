@@ -41,11 +41,6 @@ struct MapView: UIViewRepresentable {
         #if targetEnvironment(simulator)
             if let newCurrentLocation = placemarks.first?.coordinates {
                 uiView.setCenter(newCurrentLocation, animated: false)
-                _ = getCurrentAnnotations(forPlacemarks: placemarks, at: newCurrentLocation)
-                let userLocation = CLLocation(latitude: currentLocation.latitude, longitude: currentLocation.longitude)
-                let firstPlacemarkLocation = CLLocation(latitude: newCurrentLocation.latitude, longitude: newCurrentLocation.longitude)
-              //  let distance = userLocation.distance(from: firstPlacemarkLocation)
-               // print("Der User ist: \(distance / 1000) km entfernt")
                 let nearbyAnnotations = getCurrentAnnotations(forPlacemarks: placemarks, at: newCurrentLocation)
                 uiView.addAnnotations(nearbyAnnotations)
                 

@@ -24,24 +24,35 @@ struct Placemark {
 class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     @Published var parsedPlacemarks = [Placemark]()
     @Published var parsedPlacemarksDict = [Int: Placemark]()
-    let kmlParser: XMLParser?
+    var kmlParser: XMLParser? //variable machen
     var placemark: Placemark?
     var placemarks = [Placemark]()
     var placemarksDict = [Int: Placemark]()
     var currentCoordinates: CLLocationCoordinate2D?
     var placemarkName: String?
+//    var contentURLs: [URL]
+//    private var urlCount: Int
     
-    init?(contentsOf: URL) {
-        kmlParser = XMLParser(contentsOf: contentsOf)
+    init?(contentsOf: [URL]) {
         super.init()
-        if kmlParser != nil {
-            kmlParser!.delegate = self
-            kmlParser!.shouldProcessNamespaces = false
-            kmlParser!.parse()
-        }
+//        for currentURL in contentsOf {
+//            kmlParser = XMLParser(contentsOf: currentURL)
+//            if kmlParser != nil {
+//                kmlParser!.delegate = self
+//                kmlParser!.shouldProcessNamespaces = false
+//                kmlParser!.parse()
+//            }
+//        }
+        kmlParser = XMLParser(contentsOf: contentsOf[1])
+            if kmlParser != nil {
+                kmlParser!.delegate = self
+                kmlParser!.shouldProcessNamespaces = false
+                kmlParser!.parse()
+            }
     }
     
-    func parseDocument(){
+    func parseDocument(fileIndex: Int){
+//        kmlParser = XMLParser(contentsOf: contentURLs[fileIndex])
         assert(kmlParser != nil, "Parser didn't initialized. Check the URL of the document to parse")
         kmlParser!.parse()
         #if targetEnvironment(simulator)
@@ -118,9 +129,9 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     
     func parserDidEndDocument(_ parser: XMLParser) {
         parsedPlacemarks = placemarks
-//        print("Array: \(parsedPlacemarks.count)")
+        print("Array: \(parsedPlacemarks.count)")
         parsedPlacemarksDict = placemarksDict
-//        print("Dict: \(parsedPlacemarksDict.keys.count)")
+        print("Dict: \(parsedPlacemarksDict.keys.count)")
     }
     
 }

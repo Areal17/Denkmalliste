@@ -35,7 +35,7 @@ struct ContentView: View {
                         monuments: $monuments,
                         currentMonument: $currentMonument,
                         showDetail: $showDetail,
-                        placemarks: locationParser.parsedPlacemarks)
+                        placemarks: locationParser.parsedPlacemarksDict)
                             .modifier(RoundedRectView()).padding(.horizontal)
                 NavigationLink(destination: MonumentDetailView(monument: currentMonument), isActive: $showDetail) { }
                 Text("Hallo Denkmale in Berlin!")

@@ -46,7 +46,7 @@ struct MonumentDetailView: View {
         }
         .onAppear {
             if let currentMonument = monument, let currentPlacemark = currentMonument.placemark {
-                coordinateRegion = MKCoordinateRegion(center: currentPlacemark.coordinates!, latitudinalMeters: 450, longitudinalMeters: 450)
+                coordinateRegion = MKCoordinateRegion(center: currentPlacemark.coordinates, latitudinalMeters: 450, longitudinalMeters: 450)
             }
         }
     }

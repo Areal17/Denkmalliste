@@ -22,7 +22,8 @@ struct MapView: UIViewRepresentable {
     @Binding var monuments: [Int: Monument]
     @Binding var currentMonument: Monument?
     @Binding var showDetail: Bool
-    var placemarks: [Placemark]
+//    var placemarks: [Placemark]
+    var placemarks: [Int: Placemark]
     typealias UIViewType = MKMapView
     
     
@@ -39,15 +40,16 @@ struct MapView: UIViewRepresentable {
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
         #if targetEnvironment(simulator)
-            if let newCurrentLocation = placemarks.first?.coordinates {
-                uiView.setCenter(newCurrentLocation, animated: false)
-                let nearbyAnnotations = getCurrentAnnotations(forPlacemarks: placemarks, at: newCurrentLocation)
-                uiView.addAnnotations(nearbyAnnotations)
+//        if let newCurrentLocation = placemarks.values.first!.coordinates {
+            let newCurrentLocation = placemarks.values.first!.coordinates
+            uiView.setCenter(newCurrentLocation, animated: false)
+            let nearbyAnnotations = getCurrentAnnotations(forPlacemarks: Array(placemarks.values), at: newCurrentLocation)
+            uiView.addAnnotations(nearbyAnnotations)
                 
-            }
+//            }
         #else
         uiView.setCenter(currentLocation, animated: false)
-        let nearbyAnnotations = getCurrentAnnotations(forPlacemarks: placemarks, at: currentLocation)
+        let nearbyAnnotations = getCurrentAnnotations(forPlacemarks: Array(placemarks.values), at: currentLocation)
         uiView.addAnnotations(nearbyAnnotations)
         #endif
         
@@ -61,14 +63,14 @@ struct MapView: UIViewRepresentable {
         var pointAnnotations = [MonumentPointAnnotation]()
         let userLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
         for placemark in forPlacemarks {
-            let placemarkCoordinate = CLLocation(latitude: placemark.coordinates!.latitude, longitude: placemark.coordinates!.longitude)
+            let placemarkCoordinate = CLLocation(latitude: placemark.coordinates.latitude, longitude: placemark.coordinates.longitude)
             let distanceToUserlocation = placemarkCoordinate.distance(from: userLocation)
             if distanceToUserlocation <= 750 { // der Wert muss dynamisch sein und sich auf die Region beziehen, die angezeigt wird
-                if let objectID = Int(placemark.name) {
+                if let placemarkName = placemark.name, let objectID = Int(placemarkName) {
                     let currentMonument = monuments[objectID]
                     let pointAnnotation = MonumentPointAnnotation(objectID: objectID)
                     pointAnnotation.title = currentMonument?.address
-                    pointAnnotation.coordinate = placemark.coordinates!
+                    pointAnnotation.coordinate = placemark.coordinates
                     pointAnnotations.append(pointAnnotation)
                 }
             }
@@ -155,7 +157,7 @@ struct MapView_Previews: PreviewProvider {
     @State static var testMonuments = [Int: Monument]()
     @State static var showDetail = false
     @State static var testMonument: Monument?
-    static var placemarks = [Placemark]()
+    static var placemarks = [Int:Placemark]()
     static var previews: some View {
         MapView(centerCoordinates: $testLocation, currentLocation: $testLocation, region: $testRegion,monuments: $testMonuments,currentMonument: $testMonument, showDetail: $showDetail, placemarks: placemarks)
     }

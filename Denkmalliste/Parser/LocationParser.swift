@@ -31,9 +31,6 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     var currentCoordinates: CLLocationCoordinate2D?
     var placemarkName: String?
     
-    var testCountArr = 0
-    var testCountDict = 0
-    
     init?(contentsOf: URL) {
         kmlParser = XMLParser(contentsOf: contentsOf)
         super.init()
@@ -91,10 +88,8 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     func parser(_ parser: XMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?) {
         if elementName == "Placemark" {
             placemarks.append(placemark!)
-            testCountArr += 1
             if let placemarkKey = Int(placemark!.name) {
                 placemarksDict[placemarkKey] = placemark!
-                testCountDict += 1
             }
             placemark = nil
         } else if elementName == "name" {
@@ -123,9 +118,9 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     
     func parserDidEndDocument(_ parser: XMLParser) {
         parsedPlacemarks = placemarks
-        print("Array: \(parsedPlacemarks.count) - Counter: \(testCountArr)")
+//        print("Array: \(parsedPlacemarks.count)")
         parsedPlacemarksDict = placemarksDict
-        print("Dict: \(parsedPlacemarksDict.count) - Counter \(testCountDict)")
+//        print("Dict: \(parsedPlacemarksDict.keys.count)")
     }
     
 }

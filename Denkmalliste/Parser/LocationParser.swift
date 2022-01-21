@@ -35,20 +35,14 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     
     init?(contentsOf: [URL]) {
         super.init()
-//        for currentURL in contentsOf {
-//            kmlParser = XMLParser(contentsOf: currentURL)
-//            if kmlParser != nil {
-//                kmlParser!.delegate = self
-//                kmlParser!.shouldProcessNamespaces = false
-//                kmlParser!.parse()
-//            }
-//        }
-        kmlParser = XMLParser(contentsOf: contentsOf[1])
+        for currentURL in contentsOf {
+            kmlParser = XMLParser(contentsOf: currentURL)
             if kmlParser != nil {
                 kmlParser!.delegate = self
                 kmlParser!.shouldProcessNamespaces = false
                 kmlParser!.parse()
             }
+        }
     }
     
     func parseDocument(fileIndex: Int){

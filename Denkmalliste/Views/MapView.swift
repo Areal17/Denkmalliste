@@ -66,7 +66,7 @@ struct MapView: UIViewRepresentable {
             let placemarkCoordinate = CLLocation(latitude: placemark.coordinates.latitude, longitude: placemark.coordinates.longitude)
             let distanceToUserlocation = placemarkCoordinate.distance(from: userLocation)
             if distanceToUserlocation <= 750 { // der Wert muss dynamisch sein und sich auf die Region beziehen, die angezeigt wird
-                if let placemarkName = placemark.name, let objectID = Int(placemarkName) {
+                if let objectID = Int(placemark.name) {
                     let currentMonument = monuments[objectID]
                     let pointAnnotation = MonumentPointAnnotation(objectID: objectID)
                     pointAnnotation.title = currentMonument?.address

@@ -12,11 +12,11 @@ import CoreLocation
 
 struct Placemark {
     var name: String
-    var coordinates: CLLocationCoordinate2D
+    var coordinates: [CLLocationCoordinate2D]
     
     init() {
         self.name = "k.A"
-        self.coordinates = CLLocationCoordinate2D()
+        self.coordinates = [CLLocationCoordinate2D]()
     }
 }
 
@@ -54,7 +54,7 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
         #endif
     }
     
-    private func getPlacemarkID(name: String) -> String? {
+    private func placemarkID(fromString name: String) -> String? {
         guard name != "Punkt" && name != "YADE 7.0" else { return nil }
         var name = name
         name = name.replacingOccurrences(of: "Punkt ", with: "")
@@ -62,7 +62,7 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
         return name
     }
     
-    private func getCurrentCoordinates(coordinateString: String) -> CLLocationCoordinate2D {
+    private func locationCoordinates(fromString coordinateString: String) -> CLLocationCoordinate2D {
         let coordinateString = coordinateString.split(separator: ",")
         if let latitude = CLLocationDegrees(coordinateString[1]), let longitude = CLLocationDegrees(coordinateString.first!) {
             return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -107,13 +107,13 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     func parser(_ parser: XMLParser, foundCharacters string: String) {
         if placemarkName != nil {
             placemarkName = string
-            if let validName = getPlacemarkID(name: string) {
+            if let validName = placemarkID(fromString: string) {
                 placemark!.name = validName
             }
             
         } else if currentCoordinates != nil {
-            currentCoordinates = getCurrentCoordinates(coordinateString: string)
-            placemark!.coordinates =  currentCoordinates!
+            currentCoordinates = locationCoordinates(fromString: string)
+            placemark!.coordinates.append(currentCoordinates!)
         }
     }
     

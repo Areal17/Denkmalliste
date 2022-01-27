@@ -41,9 +41,9 @@ struct MapView: UIViewRepresentable {
     func updateUIView(_ uiView: MKMapView, context: Context) {
         #if targetEnvironment(simulator)
 //        if let newCurrentLocation = placemarks.values.first!.coordinates {
-            let newCurrentLocation = placemarks.values.first!.coordinates
+            let newCurrentLocation = placemarks.values.first!.coordinates.first!
             uiView.setCenter(newCurrentLocation, animated: false)
-            let nearbyAnnotations = getCurrentAnnotations(forPlacemarks: Array(placemarks.values), at: newCurrentLocation)
+            let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: newCurrentLocation)
             uiView.addAnnotations(nearbyAnnotations)
                 
 //            }
@@ -59,21 +59,35 @@ struct MapView: UIViewRepresentable {
         Coordinator(self)
     }
     
-    func getCurrentAnnotations(forPlacemarks: [Placemark], at location: CLLocationCoordinate2D ) -> [MKPointAnnotation] {
+    func currentAnnotations(forPlacemark placemarks: [Placemark], at location: CLLocationCoordinate2D ) -> [MKPointAnnotation] {
         var pointAnnotations = [MonumentPointAnnotation]()
-        let userLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
-        for placemark in forPlacemarks {
-            let placemarkCoordinate = CLLocation(latitude: placemark.coordinates.latitude, longitude: placemark.coordinates.longitude)
-            let distanceToUserlocation = placemarkCoordinate.distance(from: userLocation)
-            if distanceToUserlocation <= 750 { // der Wert muss dynamisch sein und sich auf die Region beziehen, die angezeigt wird
-                if let objectID = Int(placemark.name) {
-                    let currentMonument = monuments[objectID]
+        //let userLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
+        for placemark in placemarks {
+            if let objectID = Int(placemark.name) {
+                let currentMonument = monuments[objectID]
+                
+                for coordinate in placemark.coordinates{
                     let pointAnnotation = MonumentPointAnnotation(objectID: objectID)
                     pointAnnotation.title = currentMonument?.address
-                    pointAnnotation.coordinate = placemark.coordinates
+                    pointAnnotation.coordinate = coordinate
                     pointAnnotations.append(pointAnnotation)
+//                    let placemarkLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+//                    let distanceToUser = placemarkLocation.distance(from: userLocation)
                 }
             }
+            
+//            let placemarkCoordinate = CLLocation(latitude: placemark.coordinates.latitude, longitude: placemark.coordinates.longitude)
+//            let distanceToUserlocation = placemarkCoordinate.distance(from: userLocation)
+//            if distanceToUserlocation <= 750 { // der Wert muss dynamisch sein und sich auf die Region beziehen, die angezeigt wird
+//                if let objectID = Int(placemark.name) {
+//                    let currentMonument = monuments[objectID]
+//                    let pointAnnotation = MonumentPointAnnotation(objectID: objectID)
+//                    pointAnnotation.title = currentMonument?.address
+//                    pointAnnotation.coordinate = placemark.coordinates
+//                    pointAnnotations.append(pointAnnotation)
+//                }
+//            }
+            // ende
         }
         return pointAnnotations
     }

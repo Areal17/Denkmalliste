@@ -30,6 +30,7 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     var placemarksDict = [Int: Placemark]()
     var currentCoordinates: CLLocationCoordinate2D?
     var placemarkName: String?
+//    var currentPlacemarkID: Int?
 //    var contentURLs: [URL]
 //    private var urlCount: Int
     
@@ -82,7 +83,7 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
 
     func parser(_ parser: XMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [String : String] = [:]) {
         if elementName == "Placemark" {
-            placemark = Placemark()
+//            placemark = Placemark()
         } else if elementName == "name"{
             placemarkName = String()
         } else if elementName == "coordinates" {
@@ -108,11 +109,19 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
         if placemarkName != nil {
             placemarkName = string
             if let validName = placemarkID(fromString: string) {
-                placemark!.name = validName
+               let currentPlacemarkID = Int(validName)
+                if placemarksDict[currentPlacemarkID!] == nil {
+                    placemark = Placemark()
+                    placemark!.name = validName
+                } else {
+                    placemark = placemarksDict[currentPlacemarkID!]
+                }
             }
-            
         } else if currentCoordinates != nil {
             currentCoordinates = locationCoordinates(fromString: string)
+            if placemark == nil {
+                placemark = Placemark()
+            }
             placemark!.coordinates.append(currentCoordinates!)
         }
     }

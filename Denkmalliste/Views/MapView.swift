@@ -65,7 +65,9 @@ struct MapView: UIViewRepresentable {
         for placemark in placemarks {
             if let objectID = Int(placemark.name) {
                 let currentMonument = monuments[objectID]
-                
+                if placemark.coordinates.count > 1 {
+                    // Cluster einbauen
+                }
                 for coordinate in placemark.coordinates{
                     let pointAnnotation = MonumentPointAnnotation(objectID: objectID)
                     pointAnnotation.title = currentMonument?.address
@@ -75,19 +77,6 @@ struct MapView: UIViewRepresentable {
 //                    let distanceToUser = placemarkLocation.distance(from: userLocation)
                 }
             }
-            
-//            let placemarkCoordinate = CLLocation(latitude: placemark.coordinates.latitude, longitude: placemark.coordinates.longitude)
-//            let distanceToUserlocation = placemarkCoordinate.distance(from: userLocation)
-//            if distanceToUserlocation <= 750 { // der Wert muss dynamisch sein und sich auf die Region beziehen, die angezeigt wird
-//                if let objectID = Int(placemark.name) {
-//                    let currentMonument = monuments[objectID]
-//                    let pointAnnotation = MonumentPointAnnotation(objectID: objectID)
-//                    pointAnnotation.title = currentMonument?.address
-//                    pointAnnotation.coordinate = placemark.coordinates
-//                    pointAnnotations.append(pointAnnotation)
-//                }
-//            }
-            // ende
         }
         return pointAnnotations
     }

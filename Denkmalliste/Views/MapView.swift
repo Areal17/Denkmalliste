@@ -136,6 +136,9 @@ class Coordinator: NSObject, MKMapViewDelegate{
     }
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+        guard view.isKind(of: MKMarkerAnnotationView.self) == false else { return }
+        
         let currentAnnotationView = view as! MonumentAnnotationView
         let currentMonumentAnnotation = currentAnnotationView.annotation as! MonumentPointAnnotation
         let currenMonumentID = currentMonumentAnnotation.objectID

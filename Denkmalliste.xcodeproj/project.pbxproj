@@ -28,6 +28,7 @@
 		C6F97E25275536880032C678 /* DenkmallisteUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F97E24275536880032C678 /* DenkmallisteUITestsLaunchTests.swift */; };
 		C6F97E34275538D00032C678 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F97E33275538D00032C678 /* MapView.swift */; };
 		C6F97E3827553C9C0032C678 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6F97E3727553C9C0032C678 /* MapKit.framework */; };
+		C6FE7D3B27A44A87006B2714 /* ClusterMonumentAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6FE7D3A27A44A87006B2714 /* ClusterMonumentAnnotationView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +73,7 @@
 		C6F97E33275538D00032C678 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C6F97E3527553C9B0032C678 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C6F97E3727553C9C0032C678 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		C6FE7D3A27A44A87006B2714 /* ClusterMonumentAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClusterMonumentAnnotationView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +122,7 @@
 				C6F97E33275538D00032C678 /* MapView.swift */,
 				C6DB1F29278879EA00C13850 /* MonumentDetailView.swift */,
 				C6DB1F252788726100C13850 /* MonumentAnnotation.swift */,
+				C6FE7D3A27A44A87006B2714 /* ClusterMonumentAnnotationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -344,6 +347,7 @@
 				C6F97E34275538D00032C678 /* MapView.swift in Sources */,
 				C6DB1F2A278879EA00C13850 /* MonumentDetailView.swift in Sources */,
 				C62FEB70275906B20053C669 /* LocationParser.swift in Sources */,
+				C6FE7D3B27A44A87006B2714 /* ClusterMonumentAnnotationView.swift in Sources */,
 				C6004907276E32970038E246 /* CSVParser.swift in Sources */,
 				C6F97E08275536860032C678 /* DenkmallisteApp.swift in Sources */,
 			);

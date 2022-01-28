@@ -8,6 +8,9 @@
 import Foundation
 import MapKit
 
+
+
+
 class MonumentPointAnnotation: MKPointAnnotation {
     var objectID: Int
     
@@ -20,17 +23,47 @@ class MonumentPointAnnotation: MKPointAnnotation {
 
 class MonumentAnnotationView: MKAnnotationView {
     
+    static let ReuseID = "monumentAnnotation"
+    
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         self.annotation = annotation
+        clusteringIdentifier = "monument"
+    }
+    
+    override func prepareForDisplay() {
+        super.prepareForDisplay()
         let pinImage = UIImage(named: "Pin")
         self.image = pinImage
     }
 
 }
 
+
+class GardenMonumentAnnotationView: MKAnnotationView {
+    
+    static let ReuseID = "gardenMonumentAnnotation"
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
+        super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
+        self.annotation = annotation
+        
+        clusteringIdentifier = "gardenMonument"
+    }
+    
+    override func prepareForDisplay() {
+        super.prepareForDisplay()
+        let pinImage = UIImage(named: "GreenPin")
+        self.image = pinImage
+    }
+    
+}
 

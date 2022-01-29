@@ -65,10 +65,10 @@ struct MapView: UIViewRepresentable {
         for placemark in placemarks {
             if let objectID = Int(placemark.name) {
                 let currentMonument = monuments[objectID]
-                if placemark.coordinates.count > 1 {
-                    // Cluster einbauen
-                }
-                for coordinate in placemark.coordinates{
+//                if placemark.coordinates!.count > 1 {
+//                    // Cluster einbauen
+//                }
+                for coordinate in placemark.coordinates {
                     let pointAnnotation = MonumentPointAnnotation(objectID: objectID)
                     pointAnnotation.title = currentMonument?.address
                     pointAnnotation.coordinate = coordinate

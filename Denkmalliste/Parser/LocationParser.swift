@@ -19,11 +19,11 @@ enum KindOfMonument {
 
 struct Placemark {
     var name: String
-    var coordinates: [CLLocationCoordinate2D]?
+    var coordinates: [CLLocationCoordinate2D]
     var kindOfMonument: KindOfMonument?
     init() {
         self.name = "k.A"
-//        self.coordinates = [CLLocationCoordinate2D]()
+        self.coordinates = [CLLocationCoordinate2D]()
     }
 }
 
@@ -130,7 +130,7 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
             if placemark == nil {
                 placemark = Placemark()
             }
-            placemark!.coordinates!.append(currentCoordinates!)
+            placemark!.coordinates.append(currentCoordinates!)
         }
     }
     

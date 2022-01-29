@@ -34,10 +34,11 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
 //    var contentURLs: [URL]
 //    private var urlCount: Int
     
-    init?(contentsOf: [URL]) {
+    init?(contentsOf fileNames: [String]) {
         super.init()
-        for currentURL in contentsOf {
-            kmlParser = XMLParser(contentsOf: currentURL)
+        for fileName in fileNames {
+            let bundleURL = Bundle.main.url(forResource: fileName, withExtension: "kml")!
+            kmlParser = XMLParser(contentsOf: bundleURL)
             if kmlParser != nil {
                 kmlParser!.delegate = self
                 kmlParser!.shouldProcessNamespaces = false

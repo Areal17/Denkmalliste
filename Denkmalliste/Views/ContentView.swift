@@ -14,8 +14,9 @@ import MapKit
 struct ContentView: View {
     @State private var locations = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889), latitudinalMeters: 750, longitudinalMeters: 750)
-    private static let fileURLs = [Bundle.main.url(forResource: "baudenkmal", withExtension: "kml")!,Bundle.main.url(forResource: "gartendenkmal", withExtension: "kml")!]
-    @ObservedObject var locationParser = LocationParser(contentsOf: fileURLs)!
+//    private static let fileURLs = [Bundle.main.url(forResource: "baudenkmal", withExtension: "kml")!,Bundle.main.url(forResource: "gartendenkmal", withExtension: "kml")!]
+    private static let fileNames = ["baudenkmal", "gartendenkmal"]
+    @ObservedObject var locationParser = LocationParser(contentsOf: fileNames)!
     @State var monuments = [Int: Monument]()
     @State var showDetail = false
     @State var currentMonument: Monument?

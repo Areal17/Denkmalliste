@@ -10,17 +10,10 @@ import SwiftUI
 import CoreLocation
 
 
-enum KindOfMonument {
-    case building
-    case garden
-    case ensamble
-}
-
 
 struct Placemark {
     var name: String
     var coordinates: [CLLocationCoordinate2D]
-    var kindOfMonument: KindOfMonument?
     init() {
         self.name = "k.A"
         self.coordinates = [CLLocationCoordinate2D]()
@@ -31,15 +24,13 @@ struct Placemark {
 class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     @Published var parsedPlacemarks = [Placemark]()
     @Published var parsedPlacemarksDict = [Int: Placemark]()
-    var kmlParser: XMLParser? //variable machen
+    var kmlParser: XMLParser?
     var placemark: Placemark?
     var placemarks = [Placemark]()
     var placemarksDict = [Int: Placemark]()
     var currentCoordinates: CLLocationCoordinate2D?
     var placemarkName: String?
-//    var currentPlacemarkID: Int?
-//    var contentURLs: [URL]
-//    private var urlCount: Int
+
     
     init?(contentsOf fileNames: [String]) {
         super.init()

@@ -70,6 +70,11 @@ struct MapView: UIViewRepresentable {
 //                }
                 for coordinate in placemark.coordinates {
                     let pointAnnotation = MonumentPointAnnotation(objectID: objectID)
+                    if currentMonument?.kindOfMonument == "Gartendekmal" { //Tippfehler in der kml Datei!
+                        pointAnnotation.kindOfMonument = .garden
+                    } else if currentMonument?.kindOfMonument == "Baudenkmal" {
+                        pointAnnotation.kindOfMonument = .building
+                    }
                     pointAnnotation.title = currentMonument?.address
                     pointAnnotation.coordinate = coordinate
                     pointAnnotations.append(pointAnnotation)
@@ -114,11 +119,12 @@ class Coordinator: NSObject, MKMapViewDelegate{
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard annotation is MKPointAnnotation else { return nil }
+        guard annotation is MonumentPointAnnotation else { return nil }
+        let currentAnnotation = annotation as! MonumentPointAnnotation
         let identifier = "Annotation"
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
         if annotationView == nil {
-            annotationView = MonumentAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView = currentAnnotation.kindOfMonument == .garden ? GardenMonumentAnnotationView(annotation: currentAnnotation, reuseIdentifier: identifier) : MonumentAnnotationView(annotation: currentAnnotation, reuseIdentifier: identifier)
             annotationView!.canShowCallout = true
             annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
             //vielleicht noch in leftCallout... Icon für Art des Denkmals (Bauwerk, Ensemble etc...)
@@ -138,9 +144,12 @@ class Coordinator: NSObject, MKMapViewDelegate{
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         
         guard view.isKind(of: MKMarkerAnnotationView.self) == false else { return }
-        
-        let currentAnnotationView = view as! MonumentAnnotationView
-        let currentMonumentAnnotation = currentAnnotationView.annotation as! MonumentPointAnnotation
+        let currentMonumentAnnotation = view.annotation as! MonumentPointAnnotation
+//        if currentMonumentAnnotation.kindOfMonument == .garden {
+//            let currentAnnotationView = view as! GardenMonumentAnnotationView
+//        } else {
+//            let currentAnnotationView = view as! MonumentAnnotationView
+//        }
         let currenMonumentID = currentMonumentAnnotation.objectID
         parent.currentMonument = parent.monuments[currenMonumentID]
     }

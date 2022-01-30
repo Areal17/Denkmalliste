@@ -9,11 +9,15 @@ import Foundation
 import MapKit
 
 
-
+enum MonumentType {
+    case building
+    case garden
+    case ensable
+}
 
 class MonumentPointAnnotation: MKPointAnnotation {
     var objectID: Int
-    
+    var kindOfMonument: MonumentType?
     init(objectID: Int) {
         self.objectID = objectID
         super.init()
@@ -55,7 +59,6 @@ class GardenMonumentAnnotationView: MKAnnotationView {
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
         self.annotation = annotation
-        
         clusteringIdentifier = "gardenMonument"
     }
     

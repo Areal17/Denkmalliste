@@ -42,10 +42,9 @@ struct MapView: UIViewRepresentable {
                     uiMapView.setCenter(newCurrentLocation, animated: false)
                     let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: newCurrentLocation)
                     uiMapView.addAnnotations(nearbyAnnotations)
-                    print("Update View")
                 #else
                 uiMapView.setCenter(currentLocation, animated: false)
-                let nearbyAnnotations = getCurrentAnnotations(forPlacemarks: Array(placemarks.values), at: currentLocation)
+                let nearbyAnnotations = currentAnnotations(forPlacemarks: Array(placemarks.values), at: currentLocation)
                 uiMapView.addAnnotations(nearbyAnnotations)
                 #endif
         return uiMapView
@@ -127,19 +126,23 @@ class Coordinator: NSObject, MKMapViewDelegate {
     
 //    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 //        if annotation.isKind(of: MonumentPointAnnotation.self) {
-//            return MonumentAnnotationView(annotation: annotation, reuseIdentifier: MonumentAnnotationView.ReuseID)
+//            var annotationView = MonumentAnnotationView(annotation: annotation, reuseIdentifier: MonumentAnnotationView.ReuseID)
+//            annotationView.canShowCallout = true
+//            annotationView.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
+//            return annotationView
 //        }
 //        return nil
 //    }
-    
+//    
     
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if view.isKind(of: MonumentAnnotationView.self) == true {
             let monumentAnnotation = view.annotation as! MonumentPointAnnotation
             let monumentID = monumentAnnotation.objectID
+            print(view.canShowCallout)
             parent.currentMonument = parent.monuments[monumentID]
-            print(parent.currentMonument)
+//            print(parent.currentMonument)
         }
     }
     

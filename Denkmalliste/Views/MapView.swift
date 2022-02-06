@@ -133,36 +133,15 @@ class Coordinator: NSObject, MKMapViewDelegate {
 //    }
     
     
-//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-//        //Noch den die richtige AnnotationView abfragen - auch MarkerAnnotationView muss "durchgelassen" werden
-//        if view.isKind(of: ClusterMonumentAnnotationView.self) == true {
-//            guard let clusterAnnotation = view.annotation as? MKClusterAnnotation else { return }
-//            let annotations = clusterAnnotation.memberAnnotations
-////            mapView.removeAnnotation(clusterAnnotation)
-//
-//            if annotations.count <= 2 {
-//                mapView.showAnnotations(annotations, animated: true)
-//            }
-//        } else if view.isKind(of: MonumentAnnotationView.self) == true || view.isKind(of: GardenMonumentAnnotationView.self) == true {
-//            print("Single Annotation")
-//        }
-//        guard view.isKind(of: MKMarkerAnnotationView.self) == true else { return }
-//        let currentMonumentAnnotation = view.annotation as! MonumentPointAnnotation
-////        if currentMonumentAnnotation.kindOfMonument == .garden {
-////            let currentAnnotationView = view as! GardenMonumentAnnotationView
-////        } else {
-////            let currentAnnotationView = view as! MonumentAnnotationView
-////        }
-//        print(view)
-//        let currentMonumentID = currentMonumentAnnotation.objectID
-//        parent.currentMonument = parent.monuments[currentMonumentID]
-////        print(parent.currentMonument)
-//    }
     
-    
-//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-////        neu implementieren
-//    }
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if view.isKind(of: MonumentAnnotationView.self) == true {
+            let monumentAnnotation = view.annotation as! MonumentPointAnnotation
+            let monumentID = monumentAnnotation.objectID
+            parent.currentMonument = parent.monuments[monumentID]
+            print(parent.currentMonument)
+        }
+    }
     
 }
 

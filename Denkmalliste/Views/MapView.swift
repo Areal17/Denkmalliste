@@ -34,25 +34,25 @@ struct MapView: UIViewRepresentable {
         uiMapView.showsUserLocation = true
         uiMapView.showsCompass = true
         uiMapView.setRegion(region, animated: false)
-        
+        uiMapView.register(MonumentAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+//        uiMapView.register(GardenMonumentAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
+        uiMapView.register(ClusterMonumentAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
+                #if targetEnvironment(simulator)
+                    let newCurrentLocation = placemarks.values.first!.coordinates.first!
+                    uiMapView.setCenter(newCurrentLocation, animated: false)
+                    let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: newCurrentLocation)
+                    uiMapView.addAnnotations(nearbyAnnotations)
+                    print("Update View")
+                #else
+                uiMapView.setCenter(currentLocation, animated: false)
+                let nearbyAnnotations = getCurrentAnnotations(forPlacemarks: Array(placemarks.values), at: currentLocation)
+                uiMapView.addAnnotations(nearbyAnnotations)
+                #endif
         return uiMapView
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
-        #if targetEnvironment(simulator)
-//        if let newCurrentLocation = placemarks.values.first!.coordinates {
-            let newCurrentLocation = placemarks.values.first!.coordinates.first!
-            uiView.setCenter(newCurrentLocation, animated: false)
-            let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: newCurrentLocation)
-            uiView.addAnnotations(nearbyAnnotations)
-                
-//            }
-        #else
-        uiView.setCenter(currentLocation, animated: false)
-        let nearbyAnnotations = getCurrentAnnotations(forPlacemarks: Array(placemarks.values), at: currentLocation)
-        uiView.addAnnotations(nearbyAnnotations)
-        #endif
-        
+//            pass
     }
     
     func makeCoordinator() -> Coordinator {
@@ -65,12 +65,9 @@ struct MapView: UIViewRepresentable {
         for placemark in placemarks {
             if let objectID = Int(placemark.name) {
                 let currentMonument = monuments[objectID]
-//                if placemark.coordinates!.count > 1 {
-//                    // Cluster einbauen
-//                }
                 for coordinate in placemark.coordinates {
                     let pointAnnotation = MonumentPointAnnotation(objectID: objectID)
-                    if currentMonument?.kindOfMonument == "Gartendekmal" { //Tippfehler in der kml Datei!
+                    if currentMonument?.kindOfMonument == "Gartendekmal" || currentMonument?.kindOfMonument == "Gartendenkmal" { //Tippfehler in der kml Datei!
                         pointAnnotation.kindOfMonument = .garden
                     } else if currentMonument?.kindOfMonument == "Baudenkmal" {
                         pointAnnotation.kindOfMonument = .building
@@ -78,8 +75,6 @@ struct MapView: UIViewRepresentable {
                     pointAnnotation.title = currentMonument?.address
                     pointAnnotation.coordinate = coordinate
                     pointAnnotations.append(pointAnnotation)
-//                    let placemarkLocation = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-//                    let distanceToUser = placemarkLocation.distance(from: userLocation)
                 }
             }
         }
@@ -89,12 +84,15 @@ struct MapView: UIViewRepresentable {
 }
 
 
-class Coordinator: NSObject, MKMapViewDelegate{
+class Coordinator: NSObject, MKMapViewDelegate {
     var parent: MapView
     
     init(_ parent: MapView) {
         self.parent = parent
     }
+    
+    
+    //MARK: MapViewDelegate
     
     func mapViewDidFinishLoadingMap(_ mapView: MKMapView) {
         parent.centerCoordinates = mapView.userLocation.coordinate
@@ -118,21 +116,7 @@ class Coordinator: NSObject, MKMapViewDelegate{
         print(mode)
     }
     
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        guard annotation is MonumentPointAnnotation else { return nil }
-        let currentAnnotation = annotation as! MonumentPointAnnotation
-        let identifier = "Annotation"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-        if annotationView == nil {
-            annotationView = currentAnnotation.kindOfMonument == .garden ? GardenMonumentAnnotationView(annotation: currentAnnotation, reuseIdentifier: identifier) : MonumentAnnotationView(annotation: currentAnnotation, reuseIdentifier: identifier)
-            annotationView!.canShowCallout = true
-            annotationView?.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
-            //vielleicht noch in leftCallout... Icon für Art des Denkmals (Bauwerk, Ensemble etc...)
-        } else {
-            annotationView!.annotation = annotation
-        }
-        return annotationView
-    }
+    
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let tappedButton = control as! UIButton
@@ -141,25 +125,44 @@ class Coordinator: NSObject, MKMapViewDelegate{
         }
     }
     
-    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
-        guard view.isKind(of: MKMarkerAnnotationView.self) == false else { return }
-        let currentMonumentAnnotation = view.annotation as! MonumentPointAnnotation
-//        if currentMonumentAnnotation.kindOfMonument == .garden {
-//            let currentAnnotationView = view as! GardenMonumentAnnotationView
-//        } else {
-//            let currentAnnotationView = view as! MonumentAnnotationView
+//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+//        if annotation.isKind(of: MonumentPointAnnotation.self) {
+//            return MonumentAnnotationView(annotation: annotation, reuseIdentifier: MonumentAnnotationView.ReuseID)
 //        }
-        let currenMonumentID = currentMonumentAnnotation.objectID
-        parent.currentMonument = parent.monuments[currenMonumentID]
-    }
-    
-//
-//    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView) {
-//        print("Deselect")
-//
+//        return nil
 //    }
     
+    
+//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+//        //Noch den die richtige AnnotationView abfragen - auch MarkerAnnotationView muss "durchgelassen" werden
+//        if view.isKind(of: ClusterMonumentAnnotationView.self) == true {
+//            guard let clusterAnnotation = view.annotation as? MKClusterAnnotation else { return }
+//            let annotations = clusterAnnotation.memberAnnotations
+////            mapView.removeAnnotation(clusterAnnotation)
+//
+//            if annotations.count <= 2 {
+//                mapView.showAnnotations(annotations, animated: true)
+//            }
+//        } else if view.isKind(of: MonumentAnnotationView.self) == true || view.isKind(of: GardenMonumentAnnotationView.self) == true {
+//            print("Single Annotation")
+//        }
+//        guard view.isKind(of: MKMarkerAnnotationView.self) == true else { return }
+//        let currentMonumentAnnotation = view.annotation as! MonumentPointAnnotation
+////        if currentMonumentAnnotation.kindOfMonument == .garden {
+////            let currentAnnotationView = view as! GardenMonumentAnnotationView
+////        } else {
+////            let currentAnnotationView = view as! MonumentAnnotationView
+////        }
+//        print(view)
+//        let currentMonumentID = currentMonumentAnnotation.objectID
+//        parent.currentMonument = parent.monuments[currentMonumentID]
+////        print(parent.currentMonument)
+//    }
+    
+    
+//    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+////        neu implementieren
+//    }
     
 }
 

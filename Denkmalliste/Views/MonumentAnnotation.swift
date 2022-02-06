@@ -43,6 +43,8 @@ class MonumentAnnotationView: MKAnnotationView {
         super.prepareForDisplay()
         let pinImage = UIImage(named: "Pin")
         self.image = pinImage
+        canShowCallout = true
+        rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
     }
 
 }

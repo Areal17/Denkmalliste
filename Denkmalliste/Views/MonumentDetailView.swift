@@ -32,6 +32,8 @@ struct MonumentDetailView: View {
                             .padding(.vertical)
                         Text(monument!.monumentDescription)
                             .padding(.vertical)
+                        Text(monument!.kindOfMonument)
+                            .padding(.vertical)
                         Text("Archiktekt: \(monument!.architect)")
                             .padding(.vertical)
                             .font(.footnote)

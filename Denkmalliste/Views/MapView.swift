@@ -21,8 +21,8 @@ struct MapView: UIViewRepresentable {
     @Binding var region: MKCoordinateRegion
     @Binding var monuments: [Int: Monument]
     @Binding var currentMonument: Monument?
+    @Binding var monumentID: Int?
     @Binding var showDetail: Bool
-//    var placemarks: [Placemark]
     var placemarks: [Int: Placemark]
     typealias UIViewType = MKMapView
     
@@ -140,9 +140,10 @@ class Coordinator: NSObject, MKMapViewDelegate {
         if view.isKind(of: MonumentAnnotationView.self) == true {
             let monumentAnnotation = view.annotation as! MonumentPointAnnotation
             let monumentID = monumentAnnotation.objectID
-            print(view.canShowCallout)
             parent.currentMonument = parent.monuments[monumentID]
-//            print(parent.currentMonument)
+            parent.monumentID = monumentID
+///            Title wird hier gesetzt, da in makeUIView die Adresse noch nil ist. (da asynchron)
+            monumentAnnotation.title = parent.currentMonument?.address
         }
     }
     
@@ -157,9 +158,10 @@ struct MapView_Previews: PreviewProvider {
     @State static var testMonuments = [Int: Monument]()
     @State static var showDetail = false
     @State static var testMonument: Monument?
+    @State static var testID: Int?
     static var placemarks = [Int:Placemark]()
     static var previews: some View {
-        MapView(centerCoordinates: $testLocation, currentLocation: $testLocation, region: $testRegion,monuments: $testMonuments,currentMonument: $testMonument, showDetail: $showDetail, placemarks: placemarks)
+        MapView(centerCoordinates: $testLocation, currentLocation: $testLocation, region: $testRegion,monuments: $testMonuments,currentMonument: $testMonument,monumentID: $testID, showDetail: $showDetail, placemarks: placemarks)
     }
 }
 #endif

@@ -10,6 +10,7 @@ import MapKit
 
 struct MonumentDetailView: View {
     var monument: Monument?
+    var placemark: Placemark?
     @State var coordinateRegion: MKCoordinateRegion = MKCoordinateRegion()
     var body: some View {
         VStack {
@@ -24,7 +25,7 @@ struct MonumentDetailView: View {
                 .padding(.vertical)
             if monument != nil {
                 VStack{
-                    if monument!.placemark != nil {
+                    if monument!.objectDocNr != nil {
                         Map(coordinateRegion: $coordinateRegion)
                             .modifier(monumentBackgroundShadow())
                     }
@@ -47,7 +48,7 @@ struct MonumentDetailView: View {
             }
         }
         .onAppear {
-            if let currentMonument = monument, let currentPlacemark = currentMonument.placemark {
+            if let currentPlacemark = placemark {
                 coordinateRegion = MKCoordinateRegion(center: currentPlacemark.coordinates.first!, latitudinalMeters: 450, longitudinalMeters: 450)
             }
         }
@@ -55,7 +56,8 @@ struct MonumentDetailView: View {
 }
 
 struct MonumentDetailView_Previews: PreviewProvider {
+    static var placemark  = Placemark()
     static var previews: some View {
-        MonumentDetailView()
+        MonumentDetailView(placemark: placemark)
     }
 }

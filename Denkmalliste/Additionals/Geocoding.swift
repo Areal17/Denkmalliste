@@ -25,7 +25,6 @@ class Geocoding: ObservableObject {
                 print(locationError!.localizedDescription)
             }
             if let locationPlacemarks = locationPlacemarks {
-                print(locationPlacemarks.first)
                 self.userPlacemark = locationPlacemarks.first
             }
         }

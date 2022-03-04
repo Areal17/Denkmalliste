@@ -44,8 +44,8 @@ struct ContentView: View {
                             .modifier(RoundedRectView()).padding(.horizontal)
                 
                 NavigationLink(destination: MonumentDetailView(monument: currentMonument, placemark: locationParser.parsedPlacemarksDict[monumentID ?? 0]), isActive: $showDetail) { }
-                Text("Hallo Denkmale in Berlin!")
-//                Text(geocoding.addressFromLocation(locations))
+                Text(verbatim: geocoding.userPlacemark?.thoroughfare as String? ?? "Hallo Denkmale in Berlin!")
+//                thoroughfare = Straßenname; subThoroughfare = Hausnummer
                     .padding()
             }
             .background(Color(.sRGB, red: (232.0 / 255.0), green: (232.0 / 255.0), blue: (232.0 / 255.0), opacity: 1.0))

@@ -16,6 +16,8 @@ struct ContentView: View {
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889), latitudinalMeters: 750, longitudinalMeters: 750)
     private static let fileNames = ["baudenkmal", "gartendenkmal"]
     @ObservedObject var locationParser = LocationParser(contentsOf: fileNames)!
+    @ObservedObject var geocoding = Geocoding()
+//    @State var address: String?
     @State var monuments = [Int: Monument]()
     @State var showDetail = false
     @State var currentMonument: Monument?
@@ -43,6 +45,7 @@ struct ContentView: View {
                 
                 NavigationLink(destination: MonumentDetailView(monument: currentMonument, placemark: locationParser.parsedPlacemarksDict[monumentID ?? 0]), isActive: $showDetail) { }
                 Text("Hallo Denkmale in Berlin!")
+//                Text(geocoding.addressFromLocation(locations))
                     .padding()
             }
             .background(Color(.sRGB, red: (232.0 / 255.0), green: (232.0 / 255.0), blue: (232.0 / 255.0), opacity: 1.0))

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C6004907276E32970038E246 /* CSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6004906276E32970038E246 /* CSVParser.swift */; };
+		C615D6B327C2AD950074F392 /* Geocoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C615D6B227C2AD950074F392 /* Geocoding.swift */; };
 		C62BE7EE275A4529008A3A16 /* LocationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62FEB6F275906B20053C669 /* LocationParser.swift */; };
 		C62FEB70275906B20053C669 /* LocationParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = C62FEB6F275906B20053C669 /* LocationParser.swift */; };
 		C62FEB76275908A60053C669 /* ensembleteil.kml in Resources */ = {isa = PBXBuildFile; fileRef = C62FEB71275908A60053C669 /* ensembleteil.kml */; };
@@ -50,6 +51,7 @@
 
 /* Begin PBXFileReference section */
 		C6004906276E32970038E246 /* CSVParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSVParser.swift; sourceTree = "<group>"; };
+		C615D6B227C2AD950074F392 /* Geocoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geocoding.swift; sourceTree = "<group>"; };
 		C62FEB6F275906B20053C669 /* LocationParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationParser.swift; sourceTree = "<group>"; };
 		C62FEB71275908A60053C669 /* ensembleteil.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ensembleteil.kml; sourceTree = "<group>"; };
 		C62FEB72275908A60053C669 /* denkmalbereich.kml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = denkmalbereich.kml; sourceTree = "<group>"; };
@@ -102,6 +104,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C615D6B427C2ADA20074F392 /* Additionals */ = {
+			isa = PBXGroup;
+			children = (
+				C6839F61275642E800313DE5 /* ViewModifier.swift */,
+				C615D6B227C2AD950074F392 /* Geocoding.swift */,
+			);
+			path = Additionals;
+			sourceTree = "<group>";
+		};
 		C62FEB7B275908ED0053C669 /* LocationFiles */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,7 +176,7 @@
 				C6F97E07275536860032C678 /* DenkmallisteApp.swift */,
 				C6DB1F272788756500C13850 /* Views */,
 				C6DB1F282788758200C13850 /* Parser */,
-				C6839F61275642E800313DE5 /* ViewModifier.swift */,
+				C615D6B427C2ADA20074F392 /* Additionals */,
 				C6F97E0B275536870032C678 /* Assets.xcassets */,
 				C6F97E0D275536870032C678 /* Preview Content */,
 			);
@@ -346,6 +357,7 @@
 				C6F97E0A275536860032C678 /* ContentView.swift in Sources */,
 				C6F97E34275538D00032C678 /* MapView.swift in Sources */,
 				C6DB1F2A278879EA00C13850 /* MonumentDetailView.swift in Sources */,
+				C615D6B327C2AD950074F392 /* Geocoding.swift in Sources */,
 				C62FEB70275906B20053C669 /* LocationParser.swift in Sources */,
 				C6FE7D3B27A44A87006B2714 /* ClusterMonumentAnnotationView.swift in Sources */,
 				C6004907276E32970038E246 /* CSVParser.swift in Sources */,

@@ -26,10 +26,10 @@ struct MonumentDetailView: View {
                 RoundedRectangle(cornerRadius: 6.0)
                     .fill(Color(.sRGB, red: (243.0 / 255.0), green: (243.0 / 255.0), blue: (243.0 / 255.0), opacity: 1.0))
                     .frame(width: 280, height: 44, alignment: .center)
-                    .padding()
+//                    .padding()
                     .modifier(monumentBackgroundShadow())
             )
-                .padding(.vertical)
+              //  .padding(.vertical)
             if monument != nil {
                 VStack{
                     if monument!.objectDocNr != nil {
@@ -48,7 +48,6 @@ struct MonumentDetailView: View {
                             .modifier(monumentBackgroundShadow())
                     }
                         Text(monument!.address)
-                            .padding(.vertical)
                         Text(monument!.monumentDescription)
                             .padding(.vertical)
                         Text(monument!.kindOfMonument)
@@ -57,12 +56,15 @@ struct MonumentDetailView: View {
                             .padding(.vertical)
                         Spacer()
                 }
-//                hier u.u. den code entfernen.
                 .background(Color(.sRGB, red: (243.0 / 255.0), green: (243.0 / 255.0), blue: (243.0 / 255.0), opacity: 1.0))
-                //.frame(width: .infinity, alignment: .center)
                 .clipShape(RoundedRectangle(cornerRadius: 6.0))
                 .modifier(monumentBackgroundShadow())
-                .padding(.bottom)
+                .padding()
+            }
+            if monument!.locality.isEmpty == false || monument?.locality != "NA" {
+                Text(monument!.locality)
+                    .padding(.bottom)
+                    .tint(.gray)
             }
         }
         .onAppear {

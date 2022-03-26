@@ -16,6 +16,7 @@ import CoreLocation
 
 struct MapView: UIViewRepresentable {
     
+//    vielleicht doch nicht Binding verwenden @State stattdessen?
     @Binding var centerCoordinates: CLLocationCoordinate2D
     @Binding var currentLocation: CLLocationCoordinate2D
     @Binding var region: MKCoordinateRegion
@@ -43,15 +44,16 @@ struct MapView: UIViewRepresentable {
                     let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: newCurrentLocation)
                     uiMapView.addAnnotations(nearbyAnnotations)
                 #else
+//              currentLocation = CLLocationCoordinate2D(latitude: uiMapView.userLocation.location!.coordinate.latitude, longitude: uiMapView.userLocation.location!.coordinate.longitude)
                 uiMapView.setCenter(currentLocation, animated: false)
-                let nearbyAnnotations = currentAnnotations(forPlacemarks: Array(placemarks.values), at: currentLocation)
+                let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: currentLocation)
                 uiMapView.addAnnotations(nearbyAnnotations)
                 #endif
         return uiMapView
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
-//            pass
+//        pass
     }
     
     func makeCoordinator() -> Coordinator {
@@ -105,6 +107,7 @@ class Coordinator: NSObject, MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
         parent.currentLocation = userLocation.coordinate
         parent.centerCoordinates = userLocation.coordinate
+        print("Userlocation: \(parent.centerCoordinates)")
     }
     
     func mapViewDidFailLoadingMap(_ mapView: MKMapView, withError error: Error) {
@@ -115,6 +118,10 @@ class Coordinator: NSObject, MKMapViewDelegate {
         print(mode)
     }
     
+    
+    func mapView(_ mapView: MKMapView, didFailToLocateUserWithError error: Error) {
+        print("UserLocationError: \(error)")
+    }
     
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {

@@ -17,5 +17,14 @@
 		<string>MKDirectionsModeSubway</string>
 		<string>MKDirectionsModeTaxi</string>
 	</array>
+	<key>UILaunchScreen</key>
+	<dict>
+		<key>UIImageName</key>
+		<string>launchImg</string>
+		<key>UIColorName</key>
+		<string>logoColor</string>
+		<key>UIImageRespectsSafeAreaInsets</key>
+		<true/>
+	</dict>
 </dict>
 </plist>

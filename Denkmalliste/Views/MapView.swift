@@ -17,8 +17,8 @@ import CoreLocation
 struct MapView: UIViewRepresentable {
     
 //    vielleicht doch nicht Binding verwenden @State stattdessen?
-    @Binding var centerCoordinates: CLLocationCoordinate2D
-    @Binding var currentLocation: CLLocationCoordinate2D
+    @State var centerCoordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
+    @State var currentLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     @Binding var region: MKCoordinateRegion
     @Binding var monuments: [Int: Monument]
     @Binding var currentMonument: Monument?
@@ -44,8 +44,8 @@ struct MapView: UIViewRepresentable {
                     let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: newCurrentLocation)
                     uiMapView.addAnnotations(nearbyAnnotations)
                 #else
-//              currentLocation = CLLocationCoordinate2D(latitude: uiMapView.userLocation.location!.coordinate.latitude, longitude: uiMapView.userLocation.location!.coordinate.longitude)
-                uiMapView.setCenter(currentLocation, animated: false)
+//              print("UserLocation: \(uiMapView.userLocation.location)")
+//                uiMapView.setCenter(currentLocation, animated: false)
                 let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: currentLocation)
                 uiMapView.addAnnotations(nearbyAnnotations)
                 #endif
@@ -108,6 +108,7 @@ class Coordinator: NSObject, MKMapViewDelegate {
         parent.currentLocation = userLocation.coordinate
         parent.centerCoordinates = userLocation.coordinate
         print("Userlocation: \(parent.centerCoordinates)")
+        mapView.setCenter(userLocation.coordinate, animated: false)
     }
     
     func mapViewDidFailLoadingMap(_ mapView: MKMapView, withError error: Error) {
@@ -168,7 +169,7 @@ struct MapView_Previews: PreviewProvider {
     @State static var testID: Int?
     static var placemarks = [Int:Placemark]()
     static var previews: some View {
-        MapView(centerCoordinates: $testLocation, currentLocation: $testLocation, region: $testRegion,monuments: $testMonuments,currentMonument: $testMonument,monumentID: $testID, showDetail: $showDetail, placemarks: placemarks)
+        MapView(region: $testRegion,monuments: $testMonuments,currentMonument: $testMonument,monumentID: $testID, showDetail: $showDetail, placemarks: placemarks)
     }
 }
 #endif

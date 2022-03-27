@@ -12,7 +12,7 @@ import MapKit
 
 
 struct ContentView: View {
-    @State private var locations = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
+//    @State private var locations = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889), latitudinalMeters: 750, longitudinalMeters: 750)
     private static let fileNames = ["baudenkmal", "gartendenkmal"]
     @ObservedObject var locationParser = LocationParser(contentsOf: fileNames)!
@@ -33,9 +33,7 @@ struct ContentView: View {
                         .modifier(monumentBackgroundShadow())
                 )
                     .padding(.vertical)
-                MapView(centerCoordinates: $locations,
-                        currentLocation: $locations,
-                        region: $region,
+                MapView(region: $region,
                         monuments: $monuments,
                         currentMonument: $currentMonument,
                         monumentID: $monumentID,

@@ -11,12 +11,21 @@ import MapKit
 import CoreLocation
 
 
-
+extension CLLocationCoordinate2D {
+    static func == (left: CLLocationCoordinate2D, right: CLLocationCoordinate2D) -> Bool {
+        return left.longitude == right.longitude && left.latitude == right.latitude
+    }
+    
+    static func != (left: CLLocationCoordinate2D, right: CLLocationCoordinate2D) -> Bool {
+        return left.longitude != right.longitude || left.latitude != right.latitude
+    }
+    
+}
 
 
 struct MapView: UIViewRepresentable {
     
-//    vielleicht doch nicht Binding verwenden @State stattdessen?
+//    Anderen Ort wählen.
     @State var centerCoordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     @State var currentLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     @Binding var region: MKCoordinateRegion
@@ -32,11 +41,9 @@ struct MapView: UIViewRepresentable {
         let uiMapView = MKMapView()
         uiMapView.delegate = context.coordinator
         uiMapView.isZoomEnabled = true
-        uiMapView.showsUserLocation = true
         uiMapView.showsCompass = true
         uiMapView.setRegion(region, animated: false)
         uiMapView.register(MonumentAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
-//        uiMapView.register(GardenMonumentAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         uiMapView.register(ClusterMonumentAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
                 #if targetEnvironment(simulator)
                     let newCurrentLocation = placemarks.values.first!.coordinates.first!
@@ -44,7 +51,6 @@ struct MapView: UIViewRepresentable {
                     let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: newCurrentLocation)
                     uiMapView.addAnnotations(nearbyAnnotations)
                 #else
-//              print("UserLocation: \(uiMapView.userLocation.location)")
 //                uiMapView.setCenter(currentLocation, animated: false)
                 let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: currentLocation)
                 uiMapView.addAnnotations(nearbyAnnotations)
@@ -53,7 +59,7 @@ struct MapView: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: MKMapView, context: Context) {
-//        pass
+//        uiView.setCenter(currentLocation, animated: false)
     }
     
     func makeCoordinator() -> Coordinator {
@@ -85,7 +91,7 @@ struct MapView: UIViewRepresentable {
 }
 
 
-class Coordinator: NSObject, MKMapViewDelegate {
+class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
     var parent: MapView
     
     init(_ parent: MapView) {
@@ -105,11 +111,25 @@ class Coordinator: NSObject, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+        #if targetEnvironment(simulator)
+            print("Did update Userlocation")
+        #else
+        guard parent.currentLocation != userLocation.coordinate else { return }
         parent.currentLocation = userLocation.coordinate
         parent.centerCoordinates = userLocation.coordinate
-        print("Userlocation: \(parent.centerCoordinates)")
-        mapView.setCenter(userLocation.coordinate, animated: false)
+        if !mapView.isUserLocationVisible {
+            mapView.setCenter(parent.centerCoordinates, animated: false)
+        }
+        #endif
     }
+    
+    func mapViewWillStartLocatingUser(_ mapView: MKMapView) {
+        mapView.showsUserLocation = true
+    }
+    
+//    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+//        print("Did change locatingUser\(mapView.userLocation.coordinate)")
+//    }
     
     func mapViewDidFailLoadingMap(_ mapView: MKMapView, withError error: Error) {
         print("MapView did fail loading with error: \(error)")
@@ -154,6 +174,8 @@ class Coordinator: NSObject, MKMapViewDelegate {
             monumentAnnotation.title = parent.currentMonument?.address
         }
     }
+    
+
     
 }
 

@@ -34,12 +34,18 @@ struct MapView: UIViewRepresentable {
     @Binding var monumentID: Int?
     @Binding var showDetail: Bool
     var placemarks: [Int: Placemark]
+    var locationManager = CLLocationManager()
     typealias UIViewType = MKMapView
-    
+    let uiMapView = MKMapView()
     
     func makeUIView(context: Context) -> MKMapView {
-        let uiMapView = MKMapView()
+        //let uiMapView = MKMapView()
         uiMapView.delegate = context.coordinator
+        if locationManager.authorizationStatus == .notDetermined {
+            print("Status noch nicht abgefragt")
+        }
+        locationManager.delegate = context.coordinator
+        locationManager.startUpdatingLocation()
         uiMapView.isZoomEnabled = true
         uiMapView.showsCompass = true
         uiMapView.setRegion(region, animated: false)
@@ -117,14 +123,14 @@ class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
         guard parent.currentLocation != userLocation.coordinate else { return }
         parent.currentLocation = userLocation.coordinate
         parent.centerCoordinates = userLocation.coordinate
-        if !mapView.isUserLocationVisible {
-            mapView.setCenter(parent.centerCoordinates, animated: false)
-        }
         #endif
     }
     
     func mapViewWillStartLocatingUser(_ mapView: MKMapView) {
+        #if targetEnvironment(simulator)
+        print("will start userlocation")
         mapView.showsUserLocation = true
+        #endif
     }
     
 //    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
@@ -170,12 +176,21 @@ class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
             let monumentID = monumentAnnotation.objectID
             parent.currentMonument = parent.monuments[monumentID]
             parent.monumentID = monumentID
-///            Title wird hier gesetzt, da in makeUIView die Adresse noch nil ist. (da asynchron)
+//            Title wird hier gesetzt, da in makeUIView die Adresse noch nil ist. (da asynchron)
             monumentAnnotation.title = parent.currentMonument?.address
         }
     }
     
-
+    //    mark: CLLocationManager
+        
+        func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+            print("Did update Locations")
+            //TODO: ggf noch vorherige Postion speichern und mit neuer vergleichen. Wenn sich die Postion nicht signifikant geändert hat, dann Center nicht neu setzen
+            if let location = locations.first {
+                parent.uiMapView.setCenter(CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), animated: false)
+                parent.uiMapView.showsUserLocation = true
+            }
+        }
     
 }
 

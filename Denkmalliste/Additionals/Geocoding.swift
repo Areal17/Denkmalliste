@@ -14,9 +14,11 @@ class Geocoding: ObservableObject {
     @Published var userPlacemark: CLPlacemark?
     
     init() {
-        self.addressFromLocation(CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889))
+        //self.addressFromLocation(CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889))
     }
     
+    /// Take the location of the user and get the placemarks for the location: 
+    /// - Parameter location: the user location as CLLocationCoordinate2D
     func addressFromLocation(_ location: CLLocationCoordinate2D) {
         let geocoder = CLGeocoder()
         let location = CLLocation(latitude: location.latitude, longitude: location.longitude)

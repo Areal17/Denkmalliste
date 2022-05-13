@@ -1,4 +1,4 @@
-//
+//new
 //  MapView.swift
 //  Denkmalliste
 //
@@ -20,6 +20,12 @@ extension CLLocationCoordinate2D {
         return left.longitude != right.longitude || left.latitude != right.latitude
     }
     
+    func sufficientDistance(to otherLocation: CLLocationCoordinate2D, sufficientValue: Double) -> Bool {
+        let location = CLLocation(latitude: self.latitude, longitude: self.longitude)
+        let newLocation = CLLocation(latitude: otherLocation.latitude, longitude: otherLocation.longitude)
+        return location.distance(from: newLocation) > sufficientValue as CLLocationDistance ? true : false
+    }
+    
 }
 
 
@@ -27,6 +33,7 @@ struct MapView: UIViewRepresentable {
     
 //    Anderen Ort wählen.
     @State var centerCoordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
+    //TODO: currentLocation ggf raus
     @State var currentLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     @Binding var region: MKCoordinateRegion
     @Binding var monuments: [Int: Monument]
@@ -39,7 +46,6 @@ struct MapView: UIViewRepresentable {
     let uiMapView = MKMapView()
     
     func makeUIView(context: Context) -> MKMapView {
-        //let uiMapView = MKMapView()
         uiMapView.delegate = context.coordinator
         if locationManager.authorizationStatus == .notDetermined {
             print("Status noch nicht abgefragt")
@@ -57,7 +63,6 @@ struct MapView: UIViewRepresentable {
                     let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: newCurrentLocation)
                     uiMapView.addAnnotations(nearbyAnnotations)
                 #else
-//                uiMapView.setCenter(currentLocation, animated: false)
                 let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: currentLocation)
                 uiMapView.addAnnotations(nearbyAnnotations)
                 #endif
@@ -99,6 +104,7 @@ struct MapView: UIViewRepresentable {
 
 class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
     var parent: MapView
+    var lastLocation: CLLocationCoordinate2D?
     
     init(_ parent: MapView) {
         self.parent = parent
@@ -128,7 +134,6 @@ class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
     
     func mapViewWillStartLocatingUser(_ mapView: MKMapView) {
         #if targetEnvironment(simulator)
-        print("will start userlocation")
         mapView.showsUserLocation = true
         #endif
     }
@@ -176,7 +181,7 @@ class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
             let monumentID = monumentAnnotation.objectID
             parent.currentMonument = parent.monuments[monumentID]
             parent.monumentID = monumentID
-//            Title wird hier gesetzt, da in makeUIView die Adresse noch nil ist. (da asynchron)
+///            Title wird hier gesetzt, da in makeUIView die Adresse noch nil ist. (da asynchron)
             monumentAnnotation.title = parent.currentMonument?.address
         }
     }
@@ -184,20 +189,27 @@ class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
     //    mark: CLLocationManager
         
         func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-            print("Did update Locations")
-            //TODO: ggf noch vorherige Postion speichern und mit neuer vergleichen. Wenn sich die Postion nicht signifikant geändert hat, dann Center nicht neu setzen
             if let location = locations.first {
-                parent.uiMapView.setCenter(CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude), animated: false)
-                parent.uiMapView.showsUserLocation = true
+                let userLocation = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+                if let lastLocation = lastLocation {
+                    if userLocation.sufficientDistance(to: lastLocation, sufficientValue: 750) == true {
+                        parent.uiMapView.setCenter(userLocation, animated: false)
+                        self.lastLocation = userLocation
+                    }
+                } else {
+                    parent.currentLocation = userLocation
+                    parent.uiMapView.setCenter(userLocation, animated: false)
+                    parent.uiMapView.showsUserLocation = true
+                    lastLocation = userLocation
+                }
             }
         }
-    
 }
 
 
 #if DEBUG
 struct MapView_Previews: PreviewProvider {
-    // In _Previews muss die State-Property static sein
+    /// In _Previews muss die State-Property static sein
     @State static var testLocation = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     @State static var testRegion = MKCoordinateRegion(center: testLocation, latitudinalMeters: 750, longitudinalMeters: 750)
     @State static var testMonuments = [Int: Monument]()

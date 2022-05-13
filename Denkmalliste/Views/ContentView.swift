@@ -17,7 +17,6 @@ struct ContentView: View {
     private static let fileNames = ["baudenkmal", "gartendenkmal"]
     @ObservedObject var locationParser = LocationParser(contentsOf: fileNames)!
     @ObservedObject var geocoding = Geocoding()
-//    @State var address: String?
     @State var monuments = [Int: Monument]()
     @State var showDetail = false
     @State var currentMonument: Monument?
@@ -43,7 +42,7 @@ struct ContentView: View {
                 
                 NavigationLink(destination: MonumentDetailView(monument: currentMonument, placemark: locationParser.parsedPlacemarksDict[monumentID ?? 0]), isActive: $showDetail) { }
                 Text(verbatim: geocoding.userPlacemark?.thoroughfare as String? ?? "Hallo Denkmale in Berlin!")
-//                thoroughfare = Straßenname; subThoroughfare = Hausnummer
+///                thoroughfare = Straßenname; subThoroughfare = Hausnummer
                     .padding()
             }
             .background(Color(.sRGB, red: (232.0 / 255.0), green: (232.0 / 255.0), blue: (232.0 / 255.0), opacity: 1.0))

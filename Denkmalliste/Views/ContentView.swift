@@ -21,9 +21,10 @@ struct ContentView: View {
     @State var showDetail = false
     @State var currentMonument: Monument?
     @State var monumentID: Int?
+    @State var userLocationIsVisible = true
+    @State var centerLocation = false // fliegt raus
     var body: some View {
         NavigationView {
-            
             VStack {
                 Text("Denkmale in Berlin").font(.title).background(
                     RoundedRectangle(cornerRadius: 6.0)
@@ -37,9 +38,9 @@ struct ContentView: View {
                         currentMonument: $currentMonument,
                         monumentID: $monumentID,
                         showDetail: $showDetail,
+                        userLocationIsVisible: $userLocationIsVisible,
                         placemarks: locationParser.parsedPlacemarksDict)
                             .modifier(RoundedRectView()).padding(.horizontal)
-                
                 NavigationLink(destination: MonumentDetailView(monument: currentMonument, placemark: locationParser.parsedPlacemarksDict[monumentID ?? 0]), isActive: $showDetail) { }
                 Text(verbatim: geocoding.userPlacemark?.thoroughfare as String? ?? "Hallo Denkmale in Berlin!")
 ///                thoroughfare = Straßenname; subThoroughfare = Hausnummer

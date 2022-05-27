@@ -12,7 +12,6 @@ import MapKit
 
 
 struct ContentView: View {
-//    @State private var locations = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889), latitudinalMeters: 750, longitudinalMeters: 750)
     private static let fileNames = ["baudenkmal", "gartendenkmal"]
     @ObservedObject var locationParser = LocationParser(contentsOf: fileNames)!
@@ -21,8 +20,7 @@ struct ContentView: View {
     @State var showDetail = false
     @State var currentMonument: Monument?
     @State var monumentID: Int?
-    @State var userLocationIsVisible = true
-    @State var centerLocation = false // fliegt raus
+    @State var currentLocation = CLLocationCoordinate2D()
     var body: some View {
         NavigationView {
             VStack {
@@ -33,12 +31,12 @@ struct ContentView: View {
                         .modifier(monumentBackgroundShadow())
                 )
                     .padding(.vertical)
-                MapView(region: $region,
+                MapView(currentLocation: $currentLocation,
+                        region: $region,
                         monuments: $monuments,
                         currentMonument: $currentMonument,
                         monumentID: $monumentID,
                         showDetail: $showDetail,
-                        userLocationIsVisible: $userLocationIsVisible,
                         placemarks: locationParser.parsedPlacemarksDict)
                             .modifier(RoundedRectView()).padding(.horizontal)
                 NavigationLink(destination: MonumentDetailView(monument: currentMonument, placemark: locationParser.parsedPlacemarksDict[monumentID ?? 0]), isActive: $showDetail) { }
@@ -49,6 +47,7 @@ struct ContentView: View {
             .background(Color(.sRGB, red: (232.0 / 255.0), green: (232.0 / 255.0), blue: (232.0 / 255.0), opacity: 1.0))
             .navigationBarHidden(true)
             .task {
+                geocoding.addressFromLocation(currentLocation)
                 if let csvFileURL =  Bundle.main.url(forResource: "denkmalliste_berlin", withExtension: "csv") {
                     do {
                         monuments = try await CSVParser().parseCSVFile(fileURL:csvFileURL, lineSeperator: ControlCharacter.windowsLineFeed)

@@ -20,7 +20,7 @@ struct Placemark {
     }
 }
 
-
+///Parse the KML file with the coordinates of the Denkmäler.
 class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     @Published var parsedPlacemarks = [Placemark]()
     @Published var parsedPlacemarksDict = [Int: Placemark]()
@@ -30,8 +30,8 @@ class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     var placemarksDict = [Int: Placemark]()
     var currentCoordinates: CLLocationCoordinate2D?
     var placemarkName: String?
-
-    
+/// Initializer
+/// - Parameters: Array with the name of the file wich should be parsed. The files must be kml files.
     init?(contentsOf fileNames: [String]) {
         super.init()
         for fileName in fileNames {

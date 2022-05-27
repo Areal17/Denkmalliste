@@ -10,7 +10,8 @@ import CoreLocation
 import MapKit
 
 
-
+/// Contains the MapView
+/// in .task code wich work async where called.
 struct ContentView: View {
     @State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889), latitudinalMeters: 750, longitudinalMeters: 750)
     private static let fileNames = ["baudenkmal", "gartendenkmal"]

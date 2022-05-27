@@ -13,10 +13,10 @@ class Geocoding: ObservableObject {
 
     @Published var userPlacemark: CLPlacemark?
     
-    var userLocation: CLLocationCoordinate2D = CLLocationCoordinate2D()
+    var userLocation: CLLocationCoordinate2D
 
     init() {
-        //self.addressFromLocation(CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889))
+        self.userLocation = CLLocationCoordinate2D()
     }
     
     /// Take the location of the user and get the placemarks for the location: 

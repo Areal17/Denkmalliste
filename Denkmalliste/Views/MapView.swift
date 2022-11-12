@@ -1,4 +1,3 @@
-//new
 //  MapView.swift
 //  Denkmalliste
 //
@@ -43,6 +42,7 @@ struct MapView: UIViewRepresentable {
     var locationManager = CLLocationManager()
     typealias UIViewType = MKMapView
     let uiMapView = MKMapView()
+    @State var visibleMapRect: MKMapRect? //Neu
 
     
     func makeUIView(context: Context) -> MKMapView {
@@ -56,17 +56,19 @@ struct MapView: UIViewRepresentable {
         uiMapView.showsCompass = true
         uiMapView.showsBuildings = true
         uiMapView.setRegion(region, animated: false)
+        
         uiMapView.register(MonumentAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         uiMapView.register(ClusterMonumentAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
-                #if targetEnvironment(simulator)
-                    let simulateCurrentLocation = placemarks.values.first!.coordinates.first!
-                    uiMapView.setCenter(simulateCurrentLocation, animated: false)
-                    let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: simulateCurrentLocation)
-                    uiMapView.addAnnotations(nearbyAnnotations)
-                #else
-                let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: currentLocation)
-                uiMapView.addAnnotations(nearbyAnnotations)
-                #endif
+        #if targetEnvironment(simulator)
+            let simulateCurrentLocation = placemarks.values.first!.coordinates.first!
+            uiMapView.setCenter(simulateCurrentLocation, animated: false)
+            let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: simulateCurrentLocation)
+            uiMapView.addAnnotations(nearbyAnnotations)
+        #else
+            let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: currentLocation)
+            let visibleAnnotations = uiMapView.annotations(in: visibleMapRect) //neu - für visible annotation
+            uiMapView.addAnnotations(nearbyAnnotations)
+        #endif
         return uiMapView
     }
     
@@ -81,6 +83,7 @@ struct MapView: UIViewRepresentable {
     func currentAnnotations(forPlacemark placemarks: [Placemark], at location: CLLocationCoordinate2D ) -> [MKPointAnnotation] {
         var pointAnnotations = [MonumentPointAnnotation]()
         //let userLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
+        print("VisibleRect:\(visibleMapRect)")
         for placemark in placemarks {
             if let objectID = Int(placemark.name) {
                 let currentMonument = monuments[objectID]
@@ -121,21 +124,16 @@ class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
         locationButton.layer.cornerRadius = 5
         locationButton.layer.masksToBounds = true
         mapView.addSubview(locationButton)
+        print(mapView.visibleMapRect)
+        //neu - die VisibleMapRect muss wahrscheinlich beim ändern auch abgefragt werden
+        parent.visibleMapRect = mapView.visibleMapRect
+
     }
     
     func mapViewDidStopLocatingUser(_ mapView: MKMapView) {
         //print("\(mapView) did stop locate user")
     }
     
-//    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
-//        #if targetEnvironment(simulator)
-//            print("Did update Userlocation")
-//        #else
-//        guard parent.currentLocation != userLocation.coordinate else { return }
-//        parent.currentLocation = userLocation.coordinate
-//        parent.centerCoordinates = userLocation.coordinate
-//        #endif
-//    }
     
     func mapViewWillStartLocatingUser(_ mapView: MKMapView) {
         #if targetEnvironment(simulator)
@@ -143,10 +141,10 @@ class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
         #endif
     }
     
-//    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-//        parent.userLocationIsVisible = mapView.isUserLocationVisible
-//    }
-//
+    func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+        parent.visibleMapRect = mapView.visibleMapRect
+    }
+
     
     func mapViewDidFailLoadingMap(_ mapView: MKMapView, withError error: Error) {
         print("MapView did fail loading with error: \(error)")
@@ -160,6 +158,8 @@ class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
     func mapView(_ mapView: MKMapView, didFailToLocateUserWithError error: Error) {
         print("UserLocationError: \(error)")
     }
+    
+    
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         let tappedButton = control as! UIButton
@@ -203,7 +203,7 @@ class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
 
 #if DEBUG
 struct MapView_Previews: PreviewProvider {
-    /// In _Previews muss die State-Property static sein
+    /// In _Previews_ muss die State-Property static sein
     @State static var testLocation = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
     @State static var centerLoc = true
     @State static var testRegion = MKCoordinateRegion(center: testLocation, latitudinalMeters: 750, longitudinalMeters: 750)

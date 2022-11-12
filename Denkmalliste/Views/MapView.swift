@@ -59,16 +59,6 @@ struct MapView: UIViewRepresentable {
         
         uiMapView.register(MonumentAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultAnnotationViewReuseIdentifier)
         uiMapView.register(ClusterMonumentAnnotationView.self, forAnnotationViewWithReuseIdentifier: MKMapViewDefaultClusterAnnotationViewReuseIdentifier)
-        #if targetEnvironment(simulator)
-            let simulateCurrentLocation = placemarks.values.first!.coordinates.first!
-            uiMapView.setCenter(simulateCurrentLocation, animated: false)
-            let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: simulateCurrentLocation)
-            uiMapView.addAnnotations(nearbyAnnotations)
-        #else
-            let nearbyAnnotations = currentAnnotations(forPlacemark: Array(placemarks.values), at: currentLocation)
-            let visibleAnnotations = uiMapView.annotations(in: visibleMapRect) //neu - für visible annotation
-            uiMapView.addAnnotations(nearbyAnnotations)
-        #endif
         return uiMapView
     }
     
@@ -80,10 +70,9 @@ struct MapView: UIViewRepresentable {
         Coordinator(self)
     }
     
-    func currentAnnotations(forPlacemark placemarks: [Placemark], at location: CLLocationCoordinate2D ) -> [MKPointAnnotation] {
+    func currentAnnotations(forPlacemark placemarks: [Placemark], at location: CLLocationCoordinate2D, for visibleMapRect: MKMapRect  ) -> [MKPointAnnotation] {
         var pointAnnotations = [MonumentPointAnnotation]()
         //let userLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
-        print("VisibleRect:\(visibleMapRect)")
         for placemark in placemarks {
             if let objectID = Int(placemark.name) {
                 let currentMonument = monuments[objectID]
@@ -127,6 +116,16 @@ class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
         print(mapView.visibleMapRect)
         //neu - die VisibleMapRect muss wahrscheinlich beim ändern auch abgefragt werden
         parent.visibleMapRect = mapView.visibleMapRect
+    #if targetEnvironment(simulator)
+        let simulateCurrentLocation = parent.placemarks.values.first!.coordinates.first!
+        mapView.setCenter(simulateCurrentLocation, animated: false)
+        let nearbyAnnotations = parent.currentAnnotations(forPlacemark: Array(parent.placemarks.values), at: simulateCurrentLocation, for: mapView.visibleMapRect)
+        mapView.addAnnotations(nearbyAnnotations)
+    #else
+        let nearbyAnnotations = parent.currentAnnotations(forPlacemark: Array(parent.placemarks.values), at: currentLocation, for: mapView.visibleMapRect)
+        let visibleAnnotations = uiMapView.annotations(in: visibleMapRect) //neu - für visible annotation
+        mapView.addAnnotations(nearbyAnnotations)
+    #endif
 
     }
     

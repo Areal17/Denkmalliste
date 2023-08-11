@@ -31,8 +31,8 @@ extension CLLocationCoordinate2D {
 struct MapView: UIViewRepresentable {
     
     @State var centerCoordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
-//    @State var currentLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
-    @Binding var currentLocation: CLLocationCoordinate2D
+    @State var currentLocation: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
+//    @Binding var currentLocation: CLLocationCoordinate2D
     @Binding var region: MKCoordinateRegion
     @Binding var monuments: [Int: Monument]
     @Binding var currentMonument: Monument?
@@ -122,8 +122,8 @@ class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
         let nearbyAnnotations = parent.currentAnnotations(forPlacemark: Array(parent.placemarks.values), at: simulateCurrentLocation, for: mapView.visibleMapRect)
         mapView.addAnnotations(nearbyAnnotations)
     #else
-        let nearbyAnnotations = parent.currentAnnotations(forPlacemark: Array(parent.placemarks.values), at: currentLocation, for: mapView.visibleMapRect)
-        let visibleAnnotations = uiMapView.annotations(in: visibleMapRect) //neu - für visible annotation
+        let nearbyAnnotations = parent.currentAnnotations(forPlacemark: Array(parent.placemarks.values), at: parent.currentLocation, for: mapView.visibleMapRect)
+//        let visibleAnnotations = uiMapView.annotations(in: visibleMapRect) //neu - für visible annotation
         mapView.addAnnotations(nearbyAnnotations)
     #endif
 
@@ -213,7 +213,7 @@ struct MapView_Previews: PreviewProvider {
     @State static var userLocIsVisible = true
     static var placemarks = [Int:Placemark]()
     static var previews: some View {
-        MapView(currentLocation: $testLocation, region: $testRegion, monuments: $testMonuments,currentMonument: $testMonument,monumentID: $testID, showDetail: $showDetail, placemarks: placemarks)
+        MapView(region: $testRegion, monuments: $testMonuments,currentMonument: $testMonument,monumentID: $testID, showDetail: $showDetail, placemarks: placemarks)
     }
 }
 #endif

@@ -32,8 +32,7 @@ struct ContentView: View {
                         .modifier(monumentBackgroundShadow())
                 )
                     .padding(.vertical)
-                MapView(currentLocation: $currentLocation,
-                        region: $region,
+                MapView(region: $region,
                         monuments: $monuments,
                         currentMonument: $currentMonument,
                         monumentID: $monumentID,

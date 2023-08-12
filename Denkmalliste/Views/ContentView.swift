@@ -23,29 +23,37 @@ struct ContentView: View {
     @State var monumentID: Int?
     @State var currentLocation = CLLocationCoordinate2D()
     var body: some View {
-        NavigationView {
-            VStack {
-                Text("Denkmale in Berlin").font(.title).background(
-                    RoundedRectangle(cornerRadius: 6.0)
-                        .fill(Color(.sRGB, red: (243.0 / 255.0), green: (243.0 / 255.0), blue: (243.0 / 255.0), opacity: 1.0))
-                        .frame(width: 280, height: 44, alignment: .center)
-                        .modifier(monumentBackgroundShadow())
-                )
-                    .padding(.vertical)
+        NavigationStack {
+            ZStack {
                 MapView(region: $region,
                         monuments: $monuments,
                         currentMonument: $currentMonument,
                         monumentID: $monumentID,
                         showDetail: $showDetail,
                         placemarks: locationParser.parsedPlacemarksDict)
-                            .modifier(RoundedRectView()).padding(.horizontal)
-                NavigationLink(destination: MonumentDetailView(monument: currentMonument, placemark: locationParser.parsedPlacemarksDict[monumentID ?? 0]), isActive: $showDetail) { }
-                Text(verbatim: geocoding.userPlacemark?.thoroughfare as String? ?? "Hallo Denkmale in Berlin!")
+                .edgesIgnoringSafeArea(.all)
+                VStack {
+                    Text("Denkmale in Berlin").font(.title).background(
+                        RoundedRectangle(cornerRadius: 6.0)
+                            .fill(Color(.sRGB, red: (243.0 / 255.0), green: (243.0 / 255.0), blue: (243.0 / 255.0), opacity: 1.0))
+                            .frame(width: 280, height: 44, alignment: .center)
+                            .modifier(monumentBackgroundShadow())
+                    )
+                        .padding(.vertical)
+                    Spacer()
 ///                thoroughfare = Straßenname; subThoroughfare = Hausnummer
-                    .padding()
+                    Text(verbatim: geocoding.userPlacemark?.thoroughfare as String? ?? "Hallo Denkmale in Berlin!")
+                        .padding(.horizontal)
+                        .background(.white)
+                        .clipShape(RoundedRectangle(cornerRadius: 6.0, style: .continuous))
+                        .modifier(monumentBackgroundShadow())
+                        .padding()
+                }
             }
-            .background(Color(.sRGB, red: (232.0 / 255.0), green: (232.0 / 255.0), blue: (232.0 / 255.0), opacity: 1.0))
             .navigationBarHidden(true)
+            .navigationDestination(isPresented: $showDetail) {
+                MonumentDetailView(monument: currentMonument, placemark: locationParser.parsedPlacemarksDict[monumentID ?? 0])
+            }
             .task {
                 geocoding.addressFromLocation(currentLocation)
                 if let csvFileURL =  Bundle.main.url(forResource: "denkmalliste_berlin", withExtension: "csv") {

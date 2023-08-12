@@ -78,10 +78,16 @@ struct MapView: UIViewRepresentable {
                 let currentMonument = monuments[objectID]
                 for coordinate in placemark.coordinates {
                     let pointAnnotation = MonumentPointAnnotation(objectID: objectID)
-                    if currentMonument?.kindOfMonument == .gardenMonument { //Tippfehler in der kml Datei!
+                    if currentMonument?.kindOfMonument == .gardenMonument {
                         pointAnnotation.kindOfMonument = .garden
                     } else if currentMonument?.kindOfMonument == .monument {
                         pointAnnotation.kindOfMonument = .building
+                    } else if currentMonument?.kindOfMonument == .complex {
+                        if currentMonument?.ensembleState == .main {
+                            pointAnnotation.kindOfMonument = .building
+                        } else {
+                            continue
+                        }
                     }
                     pointAnnotation.title = currentMonument?.address
                     pointAnnotation.coordinate = coordinate

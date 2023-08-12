@@ -24,13 +24,11 @@ struct Monument {
     enum KindOfMonument: String, Codable {
         case none = "NA"
         case ensemble = "Ensemble"
-        case gesamtanlage = "Gesamtanlage"
+        case complex = "Gesamtanlage"
         case monument = "Baudenkmal"
         case groundMonument = "Bodendenkmal"
         case gardenMonument = "Gartendenkmal"
     }
-
-    // ensamble haben einen ensambleStatus, der eine enum sein soll mit folgenden Werten: none, haupt, weitererBestandteil
 
     enum EnsembleStatus: String, Codable {
         case none = "NA"
@@ -70,6 +68,13 @@ struct Monument {
 
 
 class CSVParser {
+
+    /// Parses a CSV file and returns a dictionary of monuments.
+    /// - Parameters:
+    ///   - fileURL: The URL of the CSV file to parse.
+    ///   - lineSeperator: The character used to separate lines in the CSV file.
+    /// - Returns: A dictionary of monuments, where the key is the object number and the value is the Monument object.
+    /// - Throws: An error if there is an issue reading the CSV file or parsing its contents.
     func parseCSVFile(fileURL: URL, lineSeperator: ControlCharacter) async throws -> [Int: Monument] {
         var csvSubstringLines: [Substring]!
         do {
@@ -102,6 +107,7 @@ class CSVParser {
                             currentMonument.borough = String(lineElements[idx])
                         case "EnsembleStatus":
                             currentMonument.ensembleState = Monument.EnsembleStatus(rawValue: String(lineElements[idx])) ?? .none
+    
                         case "Ortsteil":
                             currentMonument.locality = String(lineElements[idx])
                         case "Beschreibung":

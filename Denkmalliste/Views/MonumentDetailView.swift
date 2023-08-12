@@ -50,7 +50,7 @@ struct MonumentDetailView: View {
                         Text(monument!.address)
                         Text(monument!.monumentDescription)
                             .padding(.vertical)
-                        Text(monument!.kindOfMonument)
+                        Text(monument!.kindOfMonument.rawValue)
                             .padding(.vertical)
                         Text("Architekt: \(monument!.architect)")
                             .padding(.vertical)

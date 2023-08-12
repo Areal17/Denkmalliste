@@ -20,6 +20,23 @@ enum ControlCharacter: Character {
 
 
 struct Monument {
+    
+    enum KindOfMonument: String, Codable {
+        case none = "NA"
+        case ensemble = "Ensemble"
+        case gesamtanlage = "Gesamtanlage"
+        case monument = "Baudenkmal"
+        case groundMonument = "Bodendenkmal"
+        case gardenMonument = "Gartendenkmal"
+    }
+
+    // ensamble haben einen ensambleStatus, der eine enum sein soll mit folgenden Werten: none, haupt, weitererBestandteil
+
+    enum EnsembleStatus: String, Codable {
+        case none = "NA"
+        case main = "Haupt"
+        case additional = "Weiterer Bestandteil"
+    }
    
     private enum CodingKeys: String, CodingKey {
         case objectDocNr = "ObjDokNr"
@@ -39,8 +56,8 @@ struct Monument {
     var objectDocNr: Int?
     var locality: String = ""
     var borough: String = ""
-    var kindOfMonument: String = ""
-    var ensembleState: String = ""
+    var kindOfMonument: KindOfMonument = .none
+    var ensembleState: EnsembleStatus = .none
     var address: String = ""
     var belongsTo: String = ""
     var architect: String = ""
@@ -80,11 +97,11 @@ class CSVParser {
                         case "Datierung":
                             currentMonument.dating = String(lineElements[idx])
                         case "Denkmalart":
-                            currentMonument.kindOfMonument = String(lineElements[idx])
+                            currentMonument.kindOfMonument = Monument.KindOfMonument(rawValue: String(lineElements[idx])) ?? .none
                         case "Bezirk":
                             currentMonument.borough = String(lineElements[idx])
                         case "EnsembleStatus":
-                            currentMonument.ensembleState = String(lineElements[idx])
+                            currentMonument.ensembleState = Monument.EnsembleStatus(rawValue: String(lineElements[idx])) ?? .none
                         case "Ortsteil":
                             currentMonument.locality = String(lineElements[idx])
                         case "Beschreibung":

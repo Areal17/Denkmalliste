@@ -69,7 +69,7 @@ struct MapView: UIViewRepresentable {
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-    
+    /// hier umbauen. Filter noch einbauen
     func currentAnnotations(forPlacemark placemarks: [Placemark], at location: CLLocationCoordinate2D, for visibleMapRect: MKMapRect  ) -> [MKPointAnnotation] {
         var pointAnnotations = [MonumentPointAnnotation]()
         //let userLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
@@ -78,9 +78,9 @@ struct MapView: UIViewRepresentable {
                 let currentMonument = monuments[objectID]
                 for coordinate in placemark.coordinates {
                     let pointAnnotation = MonumentPointAnnotation(objectID: objectID)
-                    if currentMonument?.kindOfMonument == "Gartendekmal" || currentMonument?.kindOfMonument == "Gartendenkmal" { //Tippfehler in der kml Datei!
+                    if currentMonument?.kindOfMonument == .gardenMonument { //Tippfehler in der kml Datei!
                         pointAnnotation.kindOfMonument = .garden
-                    } else if currentMonument?.kindOfMonument == "Baudenkmal" {
+                    } else if currentMonument?.kindOfMonument == .monument {
                         pointAnnotation.kindOfMonument = .building
                     }
                     pointAnnotation.title = currentMonument?.address

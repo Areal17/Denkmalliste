@@ -69,7 +69,6 @@ struct MapView: UIViewRepresentable {
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
     }
-    /// hier umbauen. Filter noch einbauen
     func currentAnnotations(forPlacemark placemarks: [Placemark], at location: CLLocationCoordinate2D, for visibleMapRect: MKMapRect  ) -> [MKPointAnnotation] {
         var pointAnnotations = [MonumentPointAnnotation]()
         //let userLocation = CLLocation(latitude: location.latitude, longitude: location.longitude)
@@ -82,12 +81,12 @@ struct MapView: UIViewRepresentable {
                         pointAnnotation.kindOfMonument = .garden
                     } else if currentMonument?.kindOfMonument == .monument {
                         pointAnnotation.kindOfMonument = .building
-                    } else if currentMonument?.kindOfMonument == .complex {
+                    } else if currentMonument?.kindOfMonument == .ensemble {
                         if currentMonument?.ensembleState == .main {
                             pointAnnotation.kindOfMonument = .building
-                        } else {
-                            continue
-                        }
+                    } else {
+                        continue
+                    }
                     }
                     pointAnnotation.title = currentMonument?.address
                     pointAnnotation.coordinate = coordinate
@@ -129,7 +128,6 @@ class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
         mapView.addAnnotations(nearbyAnnotations)
     #else
         let nearbyAnnotations = parent.currentAnnotations(forPlacemark: Array(parent.placemarks.values), at: parent.currentLocation, for: mapView.visibleMapRect)
-//        let visibleAnnotations = uiMapView.annotations(in: visibleMapRect) //neu - für visible annotation
         mapView.addAnnotations(nearbyAnnotations)
     #endif
 

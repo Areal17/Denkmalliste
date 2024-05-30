@@ -107,7 +107,6 @@ class CSVParser {
                             currentMonument.borough = String(lineElements[idx])
                         case "EnsembleStatus":
                             currentMonument.ensembleState = Monument.EnsembleStatus(rawValue: String(lineElements[idx])) ?? .none
-    
                         case "Ortsteil":
                             currentMonument.locality = String(lineElements[idx])
                         case "Beschreibung":

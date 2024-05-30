@@ -133,6 +133,12 @@ class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate {
 
     }
     
+    func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+       let clusterAnnotation =  MKClusterAnnotation(memberAnnotations: memberAnnotations)
+        print("clusterAnnotation")
+        return clusterAnnotation
+    }
+    
     func mapViewDidStopLocatingUser(_ mapView: MKMapView) {
         //print("\(mapView) did stop locate user")
     }

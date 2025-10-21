@@ -3,24 +3,14 @@
 //  Denkmalliste
 //
 //  Created by Ingo Wiederoder on 02.12.21.
+//  Refactored: Extracted Placemark model to separate file
 //
 
 import UIKit
 import SwiftUI
 import CoreLocation
 
-
-
-struct Placemark {
-    var name: String
-    var coordinates: [CLLocationCoordinate2D]
-    init() {
-        self.name = "k.A"
-        self.coordinates = [CLLocationCoordinate2D]()
-    }
-}
-
-///Parse the KML file with the coordinates of the Denkmäler.
+/// Parse the KML file with the coordinates of the Denkmäler.
 class LocationParser: NSObject, XMLParserDelegate, ObservableObject  {
     @Published var parsedPlacemarks = [Placemark]()
     @Published var parsedPlacemarksDict = [Int: Placemark]()

@@ -2,6 +2,7 @@
 //  Denkmalliste
 //
 //  Created by Ingo Wiederoder on 29.11.21.
+//  Refactored: Extracted CLLocationCoordinate2D extensions to separate file
 //
 
 import SwiftUI
@@ -9,25 +10,7 @@ import UIKit
 import MapKit
 import CoreLocation
 
-
-extension CLLocationCoordinate2D {
-    static func == (left: CLLocationCoordinate2D, right: CLLocationCoordinate2D) -> Bool {
-        return left.longitude == right.longitude && left.latitude == right.latitude
-    }
-    
-    static func != (left: CLLocationCoordinate2D, right: CLLocationCoordinate2D) -> Bool {
-        return left.longitude != right.longitude || left.latitude != right.latitude
-    }
-    
-    func sufficientDistance(to otherLocation: CLLocationCoordinate2D, sufficientValue: Double) -> Bool {
-        let location = CLLocation(latitude: self.latitude, longitude: self.longitude)
-        let newLocation = CLLocation(latitude: otherLocation.latitude, longitude: otherLocation.longitude)
-        return location.distance(from: newLocation) > sufficientValue as CLLocationDistance ? true : false
-    }
-    
-}
-
-
+/// Map view displaying monuments with custom annotations
 struct MapView: UIViewRepresentable {
     
     @State var centerCoordinates: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 48.631389, longitude: 8.073889)
